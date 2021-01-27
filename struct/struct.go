@@ -1,4 +1,4 @@
-package structy
+package lib
 
 type T struct {
 	name  string // name of the object
