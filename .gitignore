@@ -18,3 +18,4 @@
 /printers
 /stack
 /thread-ring
+/wait-all
