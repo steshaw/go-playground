@@ -18,14 +18,20 @@ func worker(wg *sync.WaitGroup, id int) {
 	fmt.Printf("Worker %v: Finished\n", id)
 }
 
+func ToN(to int, f func(i int)) {
+	for i := 1; i <= to; i++ {
+		f(i)
+	}
+}
+
 func main() {
 	var wg sync.WaitGroup
 
-	for i, _ := range [3]int{} {
+	ToN(4, func(i int) {
 		fmt.Println("Main: Starting worker", i)
 		wg.Add(1)
 		go worker(&wg, i)
-	}
+	})
 
 	fmt.Println("Main: Waiting for workers to finish")
 	wg.Wait()
