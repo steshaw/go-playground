@@ -3,7 +3,5 @@
 set -euo pipefail
 
 for file in *.go; do
-  if [[ $file != continuation-line.go ]]; then
-    go build "${file}"
-  fi
+  go build "${file}"
 done
