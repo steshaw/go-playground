@@ -5,7 +5,6 @@ import (
 )
 
 func main() {
-	print("Hi")
 	fmt.Println("Hi")
 
 	{
@@ -16,5 +15,11 @@ func main() {
 	{
 		var s string
 		fmt.Println(s)
+	}
+
+	{
+		for i := 0; i < 5; i++ {
+			fmt.Println("i = %s", i)
+		}
 	}
 }
