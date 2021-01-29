@@ -15,17 +15,22 @@ func upTo(from, to int) chan int {
 
 func main() {
 	fmt.Println("Trying to leak channels...")
-	maybeLeakChannel := func() {
+	// Try to leak channels.
+	for {
 		for a := range upTo(2, 5) {
-			a++ // Use 'a' because we can't use '_'.
+			// Pretend that we are using 'a' to avoid the error: "a declared but
+			// not used".
+			if false {
+				a++
+			}
 
 			// By breaking here, the channel returned by upTo will never be
 			// closed.
 			break
 		}
 	}
-	// Try to leak channels.
-	for {
-		maybeLeakChannel()
-	}
+
+	// The channel created within upTo is never closed and the goroutine remains
+	// suspended. This quickly causes gigabytes of memory to leak in a tight
+	// loop.
 }
