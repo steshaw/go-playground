@@ -14,6 +14,17 @@ func PrintRange(name string, is []int) {
 
 func main() {
 	fmt.Println("Hi")
+	fmt.Println("Hi" + " " + "there")
+	fmt.Println("6 * 7 = ", 6*7)
+	fmt.Println(true)
+	fmt.Println(false)
+	fmt.Println(true || false)
+	fmt.Println(true && true)
+	fmt.Println(1 == 2)
+	fmt.Println(0 == 0)
+	fmt.Println(3.0 / 9.0)
+	fmt.Println(3.0 == 3.0)
+	fmt.Println(3.0 <= 3.0)
 
 	{
 		var i int
