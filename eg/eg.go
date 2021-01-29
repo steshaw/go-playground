@@ -49,7 +49,7 @@ func channels() {
 	fmt.Println("}")
 }
 
-func UpTo(from, to int) chan int {
+func upTo(from, to int) chan int {
 	var c chan int = make(chan int, 20)
 	go func() {
 		for i := from; i < to; i++ {
@@ -63,7 +63,7 @@ func UpTo(from, to int) chan int {
 func upto() {
 	fmt.Println("UpTo(10, 15) = {")
 	var ix int
-	for i := range UpTo(10, 15) {
+	for i := range upTo(10, 15) {
 		fmt.Println("  ", ix, ": ", i)
 		ix++
 	}
@@ -99,13 +99,7 @@ func main() {
 		}
 	}
 
-	/*
-		{
-			for x, i := 10; i < 15; i++ {
-				fmt.Println(x, ": ", i)
-			}
-		}
-	*/
+	upto()
 
 	var as = [5]int{10, 11, 12, 13, 14}
 	fmt.Println(as)
@@ -128,5 +122,4 @@ func main() {
 	PrintRange("as", as[0:])
 
 	channels()
-	upto()
 }
