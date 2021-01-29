@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func upTo(from, to int) chan int {
+func upTo(from, to int) <-chan int {
 	var c chan int = make(chan int)
 	go func() {
 		for i := from; i < to; i++ {
