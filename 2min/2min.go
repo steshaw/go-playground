@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-func PrintRange(is []int) {
-	fmt.Println("range {")
+func PrintRange(name string, is []int) {
+	fmt.Printf("%s = range {\n", name)
 	for x, i := range is {
 		fmt.Printf("  %d : %d\n", x, i)
 	}
@@ -51,8 +51,11 @@ func main() {
 			fmt.Printf("%d: %d\n", i, a)
 		}
 	}
-	PrintRange([]int{})
-	PrintRange([]int{2})
-	PrintRange([]int{2, 4})
-	PrintRange([]int{2, 4, 6})
+	PrintRange("i0", []int{})
+	PrintRange("i1", []int{2})
+	PrintRange("i2", []int{2, 4})
+	PrintRange("i3", []int{2, 4, 6})
+	var bs []int = as[0:1]
+	PrintRange("bs", bs)
+	PrintRange("as", as[0:])
 }
