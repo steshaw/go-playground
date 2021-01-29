@@ -135,21 +135,4 @@ func main() {
 	PrintRange("as", as[0:])
 
 	channels()
-
-	if false {
-		header("Up To")
-		use := func(a int) {}
-		maybeLeakChannel := func() {
-			for a := range upTo(2, 5) {
-				use(a)
-				// By breaking here, the channel returned by upTo will never be
-				// closed.
-				break
-			}
-		}
-		// Try to leak channels.
-		for {
-			maybeLeakChannel()
-		}
-	}
 }
