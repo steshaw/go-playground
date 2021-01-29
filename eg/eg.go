@@ -12,6 +12,56 @@ func PrintRange(name string, is []int) {
 	fmt.Println("}")
 }
 
+func channels() {
+	c := make(chan string)
+	go func() {
+		c <- "one"
+		c <- "two"
+		c <- "hi"
+		c <- " "
+		c <- "there"
+		// Channel must be closed to use range to avoid deadlock.
+		// Channel must be closed in this groutine rather than in the receiving routine to avoid panic "send to closed channel".
+		close(c)
+		if false {
+			// Don't close a channel twice to avoid panic!
+			close(c)
+		}
+	}()
+
+	m1 := <-c
+	m2 := <-c
+	fmt.Printf("m1 = %s\n", m1)
+	fmt.Printf("m2 = %s\n", m2)
+
+	close(c)
+	fmt.Println("msgs {")
+	for msg := range c {
+		fmt.Println("  ", msg)
+	}
+	fmt.Println("}")
+}
+
+func UpTo(from, to int) chan int {
+	var c chan int = make(chan int, 20)
+	f := func() {
+		for i := from; i < to; i++ {
+			c <- i
+		}
+	}
+	go f()
+	return c
+}
+
+func upto() {
+	fmt.Println("UpTo(10, 15) = {")
+	for i := range UpTo(10, 15) {
+		//fmt.Println("  ", ix, ": ", i)
+		fmt.Println("  ", i)
+	}
+	fmt.Println("}")
+}
+
 func main() {
 	fmt.Println("Hi")
 	fmt.Println("Hi" + " " + "there")
@@ -19,7 +69,6 @@ func main() {
 	fmt.Println(true)
 	fmt.Println(false)
 	fmt.Println(true || false)
-	fmt.Println(true && true)
 	fmt.Println(1 == 2)
 	fmt.Println(0 == 0)
 	fmt.Println(3.0 / 9.0)
@@ -69,4 +118,6 @@ func main() {
 	var bs []int = as[0:1]
 	PrintRange("bs", bs)
 	PrintRange("as", as[0:])
+
+	channels()
 }
