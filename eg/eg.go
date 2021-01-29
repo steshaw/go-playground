@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func PrintRange(name string, is []int) {
@@ -50,7 +51,7 @@ func channels() {
 }
 
 func upTo(from, to int) chan int {
-	var c chan int = make(chan int, 20)
+	var c chan int = make(chan int)
 	go func() {
 		for i := from; i < to; i++ {
 			c <- i
@@ -88,9 +89,21 @@ func main() {
 		fmt.Println(i)
 	}
 
+	header := func(title string) {
+		fmt.Printf("\n\n")
+		fmt.Println(title)
+		fmt.Println(strings.Repeat("-", len(title)))
+	}
+
 	{
+		header("Strings")
 		var s string
-		fmt.Println(s)
+		fmt.Printf("s = %s\n", s)
+		s = "fred"
+		fmt.Printf("s = %s\n", s)
+		const s1 string = "constant"
+		fmt.Printf("s1 = %s\n", s1)
+		fmt.Println()
 	}
 
 	{
@@ -122,4 +135,21 @@ func main() {
 	PrintRange("as", as[0:])
 
 	channels()
+
+	if false {
+		header("Up To")
+		use := func(a int) {}
+		maybeLeakChannel := func() {
+			for a := range upTo(2, 5) {
+				use(a)
+				// By breaking here, the channel returned by upTo will never be
+				// closed.
+				break
+			}
+		}
+		// Try to leak channels.
+		for {
+			maybeLeakChannel()
+		}
+	}
 }
