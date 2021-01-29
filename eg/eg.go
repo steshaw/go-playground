@@ -13,6 +13,9 @@ func PrintRange(name string, is []int) {
 }
 
 func channels() {
+	fmt.Printf("\n\n")
+	fmt.Println("Channels")
+	fmt.Println("--------")
 	c := make(chan string)
 	go func() {
 		c <- "one"
@@ -21,7 +24,8 @@ func channels() {
 		c <- " "
 		c <- "there"
 		// Channel must be closed to use range to avoid deadlock.
-		// Channel must be closed in this groutine rather than in the receiving routine to avoid panic "send to closed channel".
+		// Channel must be closed in this groutine rather than in the receiving
+		// routine to avoid panic "send on closed channel".
 		close(c)
 		if false {
 			// Don't close a channel twice to avoid panic!
@@ -34,7 +38,10 @@ func channels() {
 	fmt.Printf("m1 = %s\n", m1)
 	fmt.Printf("m2 = %s\n", m2)
 
-	close(c)
+	// Do not close channel here to avoid panic "send on closed channel".
+	if false {
+		close(c)
+	}
 	fmt.Println("msgs {")
 	for msg := range c {
 		fmt.Println("  ", msg)
