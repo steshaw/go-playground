@@ -3,7 +3,7 @@
 //
 package foo
 
-func main() {
+func fred() {
 	err := database.QueryRow(
 		"select * from users where user_id=?", id,
 	).Scan(
