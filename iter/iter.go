@@ -12,6 +12,17 @@ func upTo(from, to int) func(func(int)) {
 	}
 }
 
+func upTov2(from, to int) func(func(int) bool) {
+	return func(f func(int) bool) {
+		for i := from; i < to; i++ {
+			quit := f(i)
+			if quit {
+				break
+			}
+		}
+	}
+}
+
 func iter1() {
 	for {
 		upTo(2, 5)(func(i int) {
@@ -38,10 +49,22 @@ func iter2() {
 	}
 }
 
+func iter3() {
+	upTov2(2, 5)(func(i int) bool {
+		fmt.Println(i)
+		// Explicitly end iteration by returning `quit = true`.
+		return true
+	})
+}
+
 func main() {
 	fmt.Println("non-leaky iteration")
 	if false {
 		iter1()
 	}
-	iter2()
+	if false {
+		iter2()
+	}
+
+	iter3()
 }
