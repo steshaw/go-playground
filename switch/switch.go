@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func classify0(i int) string {
 	switch {
@@ -13,13 +16,13 @@ func classify0(i int) string {
 	}
 }
 func classify1(i int) string {
-	switch i > 0 {
+	switch a := i > 0; a {
 	case true:
-		return "above"
+		return strconv.FormatBool(a) + " " + "above"
 	case false:
-		return "hmm"
+		return strconv.FormatBool(a) + " " + "hmmm"
 	default:
-		return "unreachable"
+		return strconv.FormatBool(a) + " " + "unreachable"
 	}
 }
 
