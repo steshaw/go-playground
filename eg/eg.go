@@ -71,6 +71,26 @@ func upto() {
 	fmt.Println("}")
 }
 
+// Go doesn't have a ternary operator.
+func ternary1(i int) string {
+	var size string
+	if i > 100 {
+		size = "big"
+	} else {
+		size = "small"
+	}
+	return size
+}
+func ternary2(i int) string {
+	if i > 100 {
+		return "big"
+	} else {
+		return "small"
+	}
+	// Should be unreachable.
+	return "unreachable"
+}
+
 func main() {
 	fmt.Println("Hi")
 	fmt.Println("Hi" + " " + "there")
@@ -135,4 +155,17 @@ func main() {
 	PrintRange("as", as[0:])
 
 	channels()
+
+	if num := 7; num < 0 {
+		fmt.Println("< 0")
+	} else if num > 0 {
+		fmt.Println("> 0")
+	} else if num == 0 {
+		fmt.Println("== 0")
+	}
+	// `num` is inaccessible here
+	//fmt.Println(num)
+
+	fmt.Println(ternary1(32))
+	fmt.Println(ternary2(142))
 }
