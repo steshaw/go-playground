@@ -16,9 +16,7 @@ func PrintRange(name string, is []int) {
 }
 
 func channels() {
-	fmt.Printf("\n\n")
-	fmt.Println("Channels")
-	fmt.Println("--------")
+	header("Channels")
 	c := make(chan string)
 	go func() {
 		c <- "one"
@@ -105,10 +103,71 @@ func sum(ints ...int) int {
 	return result
 }
 
+func header(title string) {
+	fmt.Printf("\n\n")
+	fmt.Println(title)
+	fmt.Println(strings.Repeat("-", len(title)))
+}
+
+func ohSlices() {
+	header("Oh slices!")
+
+	{
+		fmt.Println("smash v1 {")
+		a := [...]int{0, 1, 2, 3}
+		fmt.Println("  a[1:1] =", a[1:1])
+		s := append(a[1:1], 10, 11)
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		s[0] = 101
+		fmt.Println("--")
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		fmt.Println("}")
+	}
+	{
+		fmt.Println("smash v2 {")
+		a := []int{0, 1, 2, 3}
+		fmt.Println("  a[2:2] =", a[2:2])
+		s := append(a[2:2], 10, 11)
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		s[0] = 101
+		fmt.Println("--")
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		fmt.Println("}")
+	}
+	{
+		fmt.Println("smash v3 {")
+		a := []int{0, 1, 2, 3}
+		fmt.Println("  a[3:3] =", a[3:3])
+		s := append(a[3:3], 10, 11)
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		s[0] = 101
+		fmt.Println("--")
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		fmt.Println("}")
+	}
+	{
+		fmt.Println("smash v4 {")
+		a := []int{0, 1, 2, 3}
+		fmt.Println("  a[4:4] =", a[4:4])
+		s := append(a[4:4], 10, 11)
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		s[0] = 101
+		fmt.Println("--")
+		fmt.Println("  a =", a)
+		fmt.Println("  s =", s)
+		fmt.Println("}")
+	}
+}
+
 func variadic() {
-	fmt.Println()
-	fmt.Println("Variadic")
-	fmt.Println("--------")
+	header("Variadic")
 
 	fmt.Println("sum(1, 2, 3) = ", sum(1, 2, 3))
 	fmt.Println("sum([1, 2, 3]) = ", sum([]int{1, 2, 3}...))
@@ -118,82 +177,26 @@ func variadic() {
 	fmt.Printf("sum(%o) = %d\n", nums1, sum(nums1[0:]...))
 	nums2 := [...]int{2, 4, 6}
 	fmt.Printf("sum(%o) = %d\n", nums2, sum(nums2[0:]...))
-
 	{
-		{
-			s := append([]int{20, 30}, nums0...)
-			fmt.Printf("sum(%d) = %d\n", s, sum(s...))
-		}
-		{
-			fmt.Println("smash v1 {")
-			a := []int{0, 1, 2, 3}
-			fmt.Println("  a[1:1] =", a[1:1])
-			s := append(a[1:1], 10, 11)
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			s[0] = 101
-			fmt.Println("--")
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			fmt.Println("}")
-		}
-		{
-			fmt.Println("smash v2 {")
-			a := []int{0, 1, 2, 3}
-			fmt.Println("  a[2:2] =", a[2:2])
-			s := append(a[2:2], 10, 11)
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			s[0] = 101
-			fmt.Println("--")
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			fmt.Println("}")
-		}
-		{
-			fmt.Println("smash v3 {")
-			a := []int{0, 1, 2, 3}
-			fmt.Println("  a[3:3] =", a[3:3])
-			s := append(a[3:3], 10, 11)
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			s[0] = 101
-			fmt.Println("--")
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			fmt.Println("}")
-		}
-		{
-			fmt.Println("smash v4 {")
-			a := []int{0, 1, 2, 3}
-			fmt.Println("  a[4:4] =", a[4:4])
-			s := append(a[4:4], 10, 11)
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			s[0] = 101
-			fmt.Println("--")
-			fmt.Println("  a =", a)
-			fmt.Println("  s =", s)
-			fmt.Println("}")
-		}
-
-		a := []int{11, 12}
-		fmt.Println("a =", a)
-		s := a[0:]
-		fmt.Println("s =", s)
-
-		nums := append(s, nums0...)
-		fmt.Printf(
-			"nums: type=%s kind=%s\n",
-			reflect.TypeOf(nums),
-			reflect.TypeOf(nums).Kind())
-		fmt.Printf("sum(%d) = %d\n", nums, sum(nums...))
-		nums[0] = 3
-		nums[1] = 9
-		fmt.Printf("sum(%d) = %d\n", nums, sum(nums...))
-		fmt.Println("a =", a)
-		fmt.Println("s =", s)
+		s := append([]int{20, 30}, nums0...)
+		fmt.Printf("sum(%d) = %d\n", s, sum(s...))
 	}
+	a := []int{11, 12}
+	fmt.Println("a =", a)
+	s := a[0:]
+	fmt.Println("s =", s)
+
+	nums := append(s, nums0...)
+	fmt.Printf(
+		"nums: type=%s kind=%s\n",
+		reflect.TypeOf(nums),
+		reflect.TypeOf(nums).Kind())
+	fmt.Printf("sum(%d) = %d\n", nums, sum(nums...))
+	nums[0] = 3
+	nums[1] = 9
+	fmt.Printf("sum(%d) = %d\n", nums, sum(nums...))
+	fmt.Println("a =", a)
+	fmt.Println("s =", s)
 }
 
 func main() {
@@ -212,12 +215,6 @@ func main() {
 	{
 		var i int
 		fmt.Println(i)
-	}
-
-	header := func(title string) {
-		fmt.Printf("\n\n")
-		fmt.Println(title)
-		fmt.Println(strings.Repeat("-", len(title)))
 	}
 
 	{
@@ -275,4 +272,5 @@ func main() {
 	fmt.Println(ternary2(142))
 
 	variadic()
+	ohSlices()
 }
