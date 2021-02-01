@@ -6,5 +6,9 @@ grep -l 'func main' ./*/*.go | while read -r file; do
   dir=${file%/*}
   dir=${dir#./}
   echo "$dir"
-  (cd "$dir" && go build)
+  if [[ -x $dir/build ]]; then
+    (cd "$dir" && ./build)
+  else
+    (cd "$dir" && go build)
+  fi
 done

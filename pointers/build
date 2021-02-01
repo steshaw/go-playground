@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+go build pointers.go
+gcc -Wall pointers.c
