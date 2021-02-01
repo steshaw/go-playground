@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func simple() {
 	var i int = 0
 	next := func() int {
 		i++
@@ -12,4 +12,33 @@ func main() {
 	fmt.Println(next())
 	fmt.Println(next())
 	fmt.Println(next())
+}
+
+func nextFrom(i int) func() int {
+	next := i
+	return func() int {
+		result := next
+		next++
+		return result
+	}
+}
+
+func next() {
+	g0 := nextFrom(0)
+	g1 := nextFrom(1000)
+	fmt.Println("g0 =", g0())
+	fmt.Println("g1 =", g1())
+	fmt.Println("g0 =", g0())
+	fmt.Println("g1 =", g1())
+	fmt.Println("g0 =", g0())
+	fmt.Println("g1 =", g1())
+	fmt.Println("g1 =", g1())
+	fmt.Println("g1 =", g1())
+	fmt.Println("g0 =", g0())
+	fmt.Println("g0 =", g0())
+}
+
+func main() {
+	simple()
+	next()
 }
