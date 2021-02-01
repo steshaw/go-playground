@@ -7,6 +7,14 @@ type person struct {
 	age  int    // age in years
 }
 
+func mkPerson(name string, age int) person {
+	return person{name: name, age: age}
+}
+
+func mkPersonPtr(name string, age int) *person {
+	return &person{name: name, age: age}
+}
+
 func main() {
 	steshaw0 := person{"Steven Shaw", 33}
 	fmt.Println("steshaw0 =", steshaw0)
@@ -23,4 +31,10 @@ func main() {
 	fmt.Println("bump age")
 	steshaw1.age++
 	fmt.Println("steshaw0 == steshaw1 =", steshaw0 == steshaw1)
+
+	steshaw2 := mkPerson("Steven Shaw", 34)
+	fmt.Println("steshaw1 == steshaw2 =", steshaw1 == steshaw2)
+
+	steshaw3 := mkPersonPtr("Steven Shaw", 34)
+	fmt.Println("steshaw1 == *steshaw3 =", steshaw1 == *steshaw3)
 }
