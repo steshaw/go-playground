@@ -1,3 +1,7 @@
+// TODO: Man or boy test.
+// TODO: Upwards funarg example.
+// TODO: Downwards funarg example.
+
 package main
 
 import "fmt"
