@@ -16,7 +16,7 @@ func PrintRange(name string, is []int) {
 }
 
 func channels() {
-	header("Channels")
+	h1("Channels")
 	c := make(chan string)
 	go func() {
 		c <- "one"
@@ -90,12 +90,14 @@ func ternary2(i int) string {
 	// unreachable
 }
 
+func typeOfVariadicArgument(ints ...int) {
+	fmt.Printf("ints.type = %T\n", ints)
+	fmt.Println("ints.type =", reflect.TypeOf(ints))
+	fmt.Println("ints.Kind =", reflect.TypeOf(ints).Kind())
+	fmt.Println("ints.Name =", reflect.TypeOf(ints).Name())
+}
+
 func sum(ints ...int) int {
-
-	fmt.Println("ints.type ", reflect.TypeOf(ints))
-	fmt.Println("ints.Kind ", reflect.TypeOf(ints).Kind())
-	fmt.Println("ints.Name ", reflect.TypeOf(ints).Name())
-
 	result := 0
 	for _, i := range ints {
 		result += i
@@ -103,18 +105,23 @@ func sum(ints ...int) int {
 	return result
 }
 
-func header(title string) {
+func h1(title string) {
 	fmt.Printf("\n\n")
+	fmt.Println(title)
+	fmt.Println(strings.Repeat("=", len(title)))
+}
+func h2(title string) {
+	fmt.Printf("\n")
 	fmt.Println(title)
 	fmt.Println(strings.Repeat("-", len(title)))
 }
 
 func ohSlices() {
-	header("Oh slices!")
+	h1("Oh slices!")
 
 	{
 		fmt.Println("smash v1 {")
-		a := [...]int{0, 1, 2, 3}
+		a := []int{0, 1, 2, 3}
 		fmt.Println("  a[1:1] =", a[1:1])
 		s := append(a[1:1], 10, 11)
 		fmt.Println("  a =", a)
@@ -166,26 +173,73 @@ func ohSlices() {
 	}
 }
 
+func inspectArray(array [3]int) {
+	fmt.Printf("array.type = %T\n", array)
+	fmt.Printf("array.value = %v\n", array)
+	fmt.Printf("array.len = %v\n", len(array))
+	fmt.Printf("array.cap = %v\n", cap(array))
+}
+func inspectSlice(slice []int) {
+	fmt.Printf("slice.type = %T\n", slice)
+	fmt.Printf("slice.value = %v\n", slice)
+	fmt.Printf("slice.len = %v\n", len(slice))
+	fmt.Printf("slice.cap = %v\n", cap(slice))
+}
+func inspectObject(object interface{}) {
+	fmt.Printf("object.type = %T\n", object)
+	fmt.Printf("object.value = %v\n", object)
+	/*
+		fmt.Printf("object.len = %T\n", len(object))
+		fmt.Printf("object.cap = %v\n", cap(object))
+	*/
+}
+
 func variadic() {
-	header("Variadic")
+	h1("Variadic")
+
+	typeOfVariadicArgument()
 
 	fmt.Println("sum(1, 2, 3) = ", sum(1, 2, 3))
 	fmt.Println("sum([1, 2, 3]) = ", sum([]int{1, 2, 3}...))
 	var nums0 = []int{0, 1, 2, 3, 4, 5, 6}
 	fmt.Printf("sum(%o) = %d\n", nums0[2:5], sum(nums0[2:5]...))
-	nums1 := []int{2, 4, 6}
-	fmt.Printf("sum(%o) = %d\n", nums1, sum(nums1[0:]...))
-	nums2 := [...]int{2, 4, 6}
-	fmt.Printf("sum(%o) = %d\n", nums2, sum(nums2[0:]...))
+
+	{
+		ints := [3]int{2, 4, 6}
+		h2(fmt.Sprintf("%#v", ints))
+		inspectArray(ints)
+		inspectObject(ints)
+		fmt.Printf("sum(%v) = %v\n", ints, sum(ints[:]...))
+	}
+	{
+		ints := []int{2, 4, 6}
+		h2(fmt.Sprintf("%#v", ints))
+		inspectSlice(ints)
+		inspectObject(ints)
+		fmt.Printf("sum(%v) = %v\n", ints, sum(ints[:]...))
+	}
+	{
+		ints := [...]int{2, 4, 6}
+		h2(fmt.Sprintf("%#v", ints))
+		inspectArray(ints)
+		inspectObject(ints)
+		fmt.Printf("sum(%v) = %v\n", ints, sum(ints[:]...))
+	}
+
 	{
 		s := append([]int{20, 30}, nums0...)
+		h2(fmt.Sprintf("%#v", s))
 		fmt.Printf("sum(%d) = %d\n", s, sum(s...))
 	}
+
 	a := []int{11, 12}
+	h2(fmt.Sprintf("%#v", a))
 	fmt.Println("a =", a)
 	s := a[0:]
+	h2(fmt.Sprintf("%#v", s))
 	fmt.Println("s =", s)
 
+	h2("prepend")
 	nums := append(s, nums0...)
 	fmt.Printf(
 		"nums: type=%s kind=%s\n",
@@ -197,6 +251,16 @@ func variadic() {
 	fmt.Printf("sum(%d) = %d\n", nums, sum(nums...))
 	fmt.Println("a =", a)
 	fmt.Println("s =", s)
+
+	{
+		h2("\"splat\"")
+		nums := [...]int{2, 4, 6}
+		fmt.Println("nums =", nums)
+		fmt.Printf("splat = %#v\n", append([]int{10, 11}, nums[:]...))
+		fmt.Printf("sum(10, 11, ...nums) = %v\n",
+			sum(append([]int{10, 11}, nums[:]...)...))
+	}
+
 }
 
 func main() {
@@ -218,7 +282,7 @@ func main() {
 	}
 
 	{
-		header("Strings")
+		h1("Strings")
 		var s string
 		fmt.Printf("s = %s\n", s)
 		s = "fred"
