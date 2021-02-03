@@ -2,15 +2,24 @@ package main
 
 import "fmt"
 
+// Square is a square.
+type square struct {
+	side float64
+}
+
+func (s *square) print() {
+	fmt.Printf("*square.print = %+v\n", s)
+}
+
 type circle struct {
 	radius float64
 }
 
-func (self circle) myPrint() {
-	fmt.Printf("print via val = %+v\n", self)
+func (c circle) myPrint() {
+	fmt.Printf("circle.print via val = %+v\n", c)
 }
-func (self *circle) myPrintPtr() {
-	fmt.Printf("print via ptr = %+v\n", self)
+func (c *circle) myPrintPtr() {
+	fmt.Printf("*circle.print via ptr = %+v\n", c)
 }
 
 func main() {
@@ -26,4 +35,11 @@ func main() {
 	cp.myPrintPtr()
 	(*cp).myPrint()
 	(*cp).myPrintPtr()
+
+	s := square{side: 1.5}
+	s.print()
+	(*square).print(&s)
+	sp := &s
+	sp.print()
+	(*square).print(sp)
 }
