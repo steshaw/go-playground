@@ -29,10 +29,16 @@ func (i int) print() {
 }
 */
 
-type myInt int
+type myInt int32
 
 func (i myInt) print() {
 	fmt.Printf("myInt.print = %d\n", i)
+}
+
+type otherInt int32
+
+func (i otherInt) print() {
+	fmt.Printf("otherInt.print = %d\n", i)
 }
 
 type printer interface {
@@ -70,5 +76,6 @@ func main() {
 	//	foo(s)
 	foo(sp)
 
-	(myInt(1)).print()
+	myInt(1).print()
+	otherInt(1).print()
 }
