@@ -15,11 +15,20 @@ type circle struct {
 	radius float64
 }
 
-func (c circle) myPrint() {
-	fmt.Printf("circle.print via val = %+v\n", c)
+func (c circle) print() {
+	fmt.Printf("circle.print = %+v\n", c)
 }
-func (c *circle) myPrintPtr() {
-	fmt.Printf("*circle.print via ptr = %+v\n", c)
+func (c *circle) printPtr() {
+	fmt.Printf("*circle.print = %+v\n", c)
+}
+
+type printy interface {
+	print()
+}
+
+func foo(p printy) {
+	fmt.Printf("foo: ")
+	p.print()
 }
 
 func main() {
@@ -27,14 +36,14 @@ func main() {
 	cp := &c
 	fmt.Println("c =", c)
 	fmt.Println("cp =", cp)
-	c.myPrint()
-	c.myPrintPtr()
-	(&c).myPrint()
-	(&c).myPrintPtr()
-	cp.myPrint()
-	cp.myPrintPtr()
-	(*cp).myPrint()
-	(*cp).myPrintPtr()
+	c.print()
+	c.printPtr()
+	(&c).print()
+	(&c).printPtr()
+	cp.print()
+	cp.printPtr()
+	(*cp).print()
+	(*cp).printPtr()
 
 	s := square{side: 1.5}
 	s.print()
@@ -42,4 +51,9 @@ func main() {
 	sp := &s
 	sp.print()
 	(*square).print(sp)
+
+	foo(c)
+	foo(cp)
+	//	foo(s)
+	foo(sp)
 }
