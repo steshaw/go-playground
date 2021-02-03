@@ -22,11 +22,11 @@ func (c *circle) printPtr() {
 	fmt.Printf("*circle.print = %+v\n", c)
 }
 
-type printy interface {
+type printer interface {
 	print()
 }
 
-func foo(p printy) {
+func foo(p printer) {
 	fmt.Printf("foo: ")
 	p.print()
 }
