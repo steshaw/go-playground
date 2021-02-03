@@ -22,6 +22,19 @@ func (c *circle) printPtr() {
 	fmt.Printf("*circle.print = %+v\n", c)
 }
 
+// Causes error: "Cannot define new methods on non-local type int."
+/*
+func (i int) print() {
+	fmt.Printf("int.print = %d\n", i)
+}
+*/
+
+type myInt int
+
+func (i myInt) print() {
+	fmt.Printf("myInt.print = %d\n", i)
+}
+
 type printer interface {
 	print()
 }
@@ -56,4 +69,6 @@ func main() {
 	foo(cp)
 	//	foo(s)
 	foo(sp)
+
+	(myInt(1)).print()
 }
