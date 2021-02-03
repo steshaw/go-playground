@@ -1,15 +1,18 @@
 package main
 
-import "io"
-import "log"
-import "net/http"
-import "os"
+import (
+	"io"
+	"log"
+	"net/http"
+	"os"
+)
 
 func main() {
 	res, err := http.Get("https://golang.org1")
-	defer res.Body.Close()
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
+	defer res.Body.Close()
 	io.Copy(os.Stdout, res.Body)
 }
