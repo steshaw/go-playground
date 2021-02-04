@@ -1,5 +1,9 @@
 //
 // Adapted from https://goinbigdata.com/golang-wait-for-all-goroutines-to-finish/
+// which seems to be very similar to
+// https://gobyexample.com/waitgroups
+//
+// See also the example at https://golang.org/pkg/sync/
 //
 
 package main
@@ -18,7 +22,7 @@ func worker(wg *sync.WaitGroup, id int) {
 	fmt.Printf("Worker %v: Finished\n", id)
 }
 
-func ToN(to int, f func(i int)) {
+func toN(to int, f func(i int)) {
 	for i := 1; i <= to; i++ {
 		f(i)
 	}
@@ -27,7 +31,7 @@ func ToN(to int, f func(i int)) {
 func main() {
 	var wg sync.WaitGroup
 
-	ToN(4, func(i int) {
+	toN(4, func(i int) {
 		fmt.Println("Main: Starting worker", i)
 		wg.Add(1)
 		go worker(&wg, i)
