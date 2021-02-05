@@ -1,30 +1,30 @@
-- [ ] Hello World
-- [ ] Values
-- [ ] Variables
-- [ ] Constants
-- [ ] For
-- [ ] If/Else
-- [ ] Switch
-- [ ] Arrays
-- [ ] Slices
-- [ ] Maps
-- [ ] Range
-- [ ] Functions
-- [ ] Multiple Return Values
-- [ ] Variadic Functions
-- [ ] Closures
-- [ ] Recursion
-- [ ] Pointers
-- [ ] Structs
-- [ ] Methods
-- [ ] Interfaces
-- [ ] Errors
-- [ ] Goroutines
-- [ ] Channels
-- [ ] Channel Buffering
-- [ ] Channel Synchronization
-- [ ] Channel Directions
-- [ ] Select
+- [X] Hello World
+- [X] Values
+- [X] Variables
+- [X] Constants
+- [X] For
+- [X] If/Else
+- [X] Switch
+- [X] Arrays
+- [X] Slices
+- [X] Maps
+- [X] Range
+- [X] Functions
+- [X] Multiple Return Values
+- [X] Variadic Functions
+- [X] Closures
+- [X] Recursion
+- [X] Pointers
+- [X] Structs
+- [X] Methods
+- [X] Interfaces
+- [X] Errors
+- [X] Goroutines
+- [X] Channels
+- [X] Channel Buffering
+- [X] Channel Synchronization
+- [X] Channel Directions
+- [X] Select
 - [ ] Timeouts
 - [ ] Non-Blocking Channel Operations
 - [ ] Closing Channels
