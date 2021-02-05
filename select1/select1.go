@@ -24,16 +24,29 @@ func main() {
 		}
 	}()
 
+	numItems := 0
+	fmt.Printf("Items: ")
 	for {
 		select {
-		case c := <-ca:
-			fmt.Println("on ca", c)
-			fmt.Printf("received on ca: %c\n", c)
-		case c := <-cb:
-			fmt.Println("on cb", c)
-			fmt.Printf("received on cb: %c\n", c)
-		default:
-			fmt.Println("default")
+		case c, ok := <-ca:
+			if ok {
+				numItems++
+				fmt.Printf("%c", c)
+			} else {
+				ca = nil
+			}
+		case c, ok := <-cb:
+			if ok {
+				numItems++
+				fmt.Printf("%c", c)
+			} else {
+				cb = nil
+			}
+		}
+		if ca == nil && cb == nil {
+			break
 		}
 	}
+	fmt.Printf("\n")
+	fmt.Println("total items =", numItems)
 }
