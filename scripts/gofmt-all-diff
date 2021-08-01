@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+out=/tmp/diff.$$.out
+
+fd '\.go$' --exec-batch gofmt -d >$out
+
+if [[ -s $out ]]; then
+  cat $out
+  exit 1
+fi

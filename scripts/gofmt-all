@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+fd '\.go$' --exec-batch gofmt -w
