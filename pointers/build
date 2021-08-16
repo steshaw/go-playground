@@ -4,3 +4,6 @@ set -euo pipefail
 
 go build pointers.go
 gcc -Wall pointers.c
+
+./a.out >expected
+./pointers | diff expected -

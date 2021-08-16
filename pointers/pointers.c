@@ -45,10 +45,10 @@ func main() {
 int main() {
   int i = 3;
   printf("i = %d\n", i);
-  printf("ok(i)");
+  printf("ok(i)\n");
   ok(i);
   printf("i = %d\n", i);
-  printf("mut(&i)");
+  printf("mut(&i)\n");
   mut(&i);
   printf("i = %d\n", i);
 }
