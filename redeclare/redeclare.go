@@ -2,7 +2,18 @@ package main
 
 import "fmt"
 
-func main() {
+func redeclareWithExplicitScopes() {
+	{
+		a, b := 1, 2
+		fmt.Println(a, b)
+	}
+	{
+		b, _ := 0, 3
+		fmt.Println(b)
+	}
+}
+
+func redeclare1() {
 	a, b := 1, 2
 	// 'c' here cannot be replaced by '_' otherwise you run into "No new
 	// variables on left side of :=". It turns out that "redeclaring" 'b' here
@@ -16,4 +27,9 @@ func main() {
 
 	// Use all the variables to avoid "declared by not used"
 	fmt.Println(a, b, c)
+}
+
+func main() {
+	redeclare1()
+	redeclareWithExplicitScopes()
 }
