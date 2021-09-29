@@ -7,10 +7,10 @@ import (
 )
 
 type Base struct {
-	Slice    []string
-	Pointer  *string
-	SPointer *Base
-	Map      map[int]bool
+	Slice     []string
+	StringPtr *string
+	BasePtr   *Base
+	Map       map[int]bool
 }
 
 func main() {
@@ -20,15 +20,15 @@ func main() {
 	m[3] = true
 	m[5] = true
 	a := Base{
-		Pointer: &s,
-		Slice:   []string{"a", "b", "c"},
-		SPointer: &Base{
+		StringPtr: &s,
+		Slice:     []string{"a", "b", "c"},
+		BasePtr: &Base{
 			Slice: []string{"1", "2", "3"},
 		},
 		Map: m,
 	}
 	fmt.Println("original:", a)
-	fmt.Println("original SPointer:", a.SPointer)
+	fmt.Println("original BasePtr:", a.BasePtr)
 
 	fmt.Println()
 	fmt.Println()
@@ -38,24 +38,24 @@ func main() {
 	b.Slice = []string{"c", "b", "a"}
 	b.Map = make(map[int]bool)
 	b.Map[3] = false
-	fmt.Println("b.Pointer:", b.Pointer)
-	fmt.Println("b.SPointer:", b.SPointer)
-	b.SPointer = &Base{
+	fmt.Println("b.StringPtr:", b.StringPtr)
+	fmt.Println("b.BasePtr:", b.BasePtr)
+	b.BasePtr = &Base{
 		Slice: []string{"3", "2", "1"},
 	}
 	fmt.Println("a after updating b:", a)
-	fmt.Println("SPointer after updating b:", a.SPointer)
+	fmt.Println("BasePtr after updating b:", a.BasePtr)
 	fmt.Println()
 	fmt.Println()
 
 	c := a
 	c.Slice = []string{"c", "b", "a"}
 	c.Map[3] = false
-	fmt.Println("c.Pointer:", c.Pointer)
-	fmt.Println("c.SPointer:", c.SPointer)
-	c.Pointer = nil
-	c.SPointer.Slice = []string{"3", "2", "1"}
+	fmt.Println("c.StringPtr:", c.StringPtr)
+	fmt.Println("c.BasePtr:", c.BasePtr)
+	c.StringPtr = nil
+	c.BasePtr.Slice = []string{"3", "2", "1"}
 
 	fmt.Println("a after updating c:", a)
-	fmt.Println("SPointer after updating c:", a.SPointer)
+	fmt.Println("BasePtr after updating c:", a.BasePtr)
 }
