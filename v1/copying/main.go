@@ -15,10 +15,11 @@ type Base struct {
 
 func newBase() *Base {
 	s := "test"
-	m := make(map[int]bool)
-	m[1] = true
-	m[3] = true
-	m[5] = true
+	m := map[int]bool{
+		1: true,
+		3: true,
+		5: true,
+	}
 	return &Base{
 		StringPtr: &s,
 		Slice:     []string{"a", "b", "c"},
