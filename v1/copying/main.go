@@ -15,18 +15,17 @@ type Base struct {
 
 func newBase() *Base {
 	s := "test"
-	m := map[int]bool{
-		1: true,
-		3: true,
-		5: true,
-	}
 	return &Base{
 		StringPtr: &s,
 		Slice:     []string{"a", "b", "c"},
 		BasePtr: &Base{
 			Slice: []string{"1", "2", "3"},
 		},
-		Map: m,
+		Map: map[int]bool{
+			1: true,
+			3: true,
+			5: true,
+		},
 	}
 }
 
@@ -39,7 +38,17 @@ func withCopier() {
 
 	var b Base
 	copier.Copy(&b, &a)
-	b.Slice = []string{"c", "b", "a"}
+	fmt.Printf("a.Slice.p = %p\n", a.Slice)
+	fmt.Printf("b.Slice.p = %p\n", b.Slice)
+
+	newSlice := []string{"c", "b", "a"}
+	fmt.Printf("Clobbering b.Slice with a new slice %#v\n", newSlice)
+	b.Slice = newSlice
+	fmt.Printf("a.Slice.p = %p\n", a.Slice)
+	fmt.Printf("b.Slice.p = %p\n", b.Slice)
+	fmt.Printf("a.Slice = %#v\n", a.Slice)
+	fmt.Printf("b.Slice = %#v\n", b.Slice)
+
 	//b.Map = make(map[int]bool)
 	b.Map[3] = false
 	fmt.Printf("b.StringPtr: %p\n", b.StringPtr)
