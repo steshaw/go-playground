@@ -104,13 +104,24 @@ func withBuiltinCopy() {
 
 func main() {
 	withCopy(func(dest *Base, source *Base) {
-		fmt.Println("Copying with copier.Copy")
+		fmt.Println("Copying with builtin assignment")
+		println()
+		*dest = *source
+	})
+
+	println()
+	println("---------------------------------------------------------------")
+	withCopy(func(dest *Base, source *Base) {
+		fmt.Println("Copying with copier")
+		println()
 		copier.Copy(dest, source)
 	})
 
 	println()
+	println("---------------------------------------------------------------")
 	withCopy(func(dest *Base, source *Base) {
-		fmt.Println("Copying with builtin assignment")
-		*dest = *source
+		fmt.Println("Copying with copier DeepCopy=true")
+		println()
+		copier.CopyWithOption(dest, source, copier.Option{DeepCopy: true})
 	})
 }
