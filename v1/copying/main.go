@@ -42,14 +42,10 @@ func inspectStringSlice(msg string, slice []string) {
 	)
 }
 
-func withCopier() {
-	fmt.Println("withCopier")
-
-	println()
-	fmt.Println("Creating b with copier.Copy")
+func withCopy(copy func(dest *Base, source *Base)) {
 	a := newBase()
 	var b Base
-	copier.Copy(&b, a)
+	copy(&b, a)
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
@@ -107,7 +103,14 @@ func withBuiltinCopy() {
 }
 
 func main() {
-	withCopier()
-	fmt.Println()
-	withBuiltinCopy()
+	withCopy(func(dest *Base, source *Base) {
+		fmt.Println("Copying with copier.Copy")
+		copier.Copy(dest, source)
+	})
+
+	println()
+	withCopy(func(dest *Base, source *Base) {
+		fmt.Println("Copying with builtin assignment")
+		*dest = *source
+	})
 }
