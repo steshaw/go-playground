@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jinzhu/copier"
 )
+
+var separator = strings.Repeat("-", 80)
 
 type Base struct {
 	Slice     []string
@@ -49,32 +52,32 @@ func withCopy(copy func(dest *Base, source *Base)) {
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
-	println()
+	fmt.Println()
 	fmt.Println("Updating b.Slice[1] to X")
 	b.Slice[1] = "X"
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
-	println()
+	fmt.Println()
 	fmt.Println("Append d to b.Slice")
 	b.Slice = append(b.Slice, "d")
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
 	newSlice := []string{"c", "b", "a"}
-	println()
+	fmt.Println()
 	fmt.Printf("Clobbering b.Slice with a new slice %#v\n", newSlice)
 	b.Slice = newSlice
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
-	println()
+	fmt.Println()
 	fmt.Println("Updating b.Map[3] to false")
 	b.Map[3] = false
 	inspectBase("a", a)
 	inspectBase("b", &b)
 
-	println()
+	fmt.Println()
 	fmt.Println("Clobber b.BasePtr")
 	b.BasePtr = &Base{
 		Slice: []string{"3", "2", "1"},
@@ -105,23 +108,23 @@ func withBuiltinCopy() {
 func main() {
 	withCopy(func(dest *Base, source *Base) {
 		fmt.Println("Copying with builtin assignment")
-		println()
+		fmt.Println()
 		*dest = *source
 	})
 
-	println()
-	println("---------------------------------------------------------------")
+	fmt.Println()
+	fmt.Println(separator)
 	withCopy(func(dest *Base, source *Base) {
 		fmt.Println("Copying with copier")
-		println()
+		fmt.Println()
 		copier.Copy(dest, source)
 	})
 
-	println()
-	println("---------------------------------------------------------------")
+	fmt.Println()
+	fmt.Println(separator)
 	withCopy(func(dest *Base, source *Base) {
 		fmt.Println("Copying with copier DeepCopy=true")
-		println()
+		fmt.Println()
 		copier.CopyWithOption(dest, source, copier.Option{DeepCopy: true})
 	})
 }
