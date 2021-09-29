@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"sync"
 )
 
 func baabaa(goexit bool) {
@@ -34,10 +35,8 @@ func foo(goexit bool) {
 	}()
 }
 
-func doIt(finished chan bool) {
-	defer func() {
-		finished <- false // Any bool will do.
-	}()
+func doIt(wg *sync.WaitGroup) {
+	defer wg.Done()
 	defer func() {
 		fmt.Println("main:deferred.first")
 	}()
@@ -66,8 +65,9 @@ func doIt(finished chan bool) {
 }
 
 func main() {
-	finished := make(chan bool)
-	go doIt(finished)
-	b := <-finished
-	fmt.Printf("b = %v\n", b)
+	var wg sync.WaitGroup
+	go doIt(&wg)
+	wg.Add(1)
+	wg.Wait()
+	fmt.Println("Finished!")
 }
