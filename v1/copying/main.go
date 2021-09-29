@@ -29,17 +29,40 @@ func newBase() *Base {
 	}
 }
 
+func inspectBase(msg string, base *Base) {
+	fmt.Printf("%s: %#v\n", msg, base)
+	fmt.Printf("%s.BasePtr: %#v\n", msg, base.BasePtr)
+}
+
+func inspectStringSlice(msg string, slice []string) {
+	fmt.Printf("%s pointer=%p len=%d cap=%d: %#v\n",
+		msg, slice, len(slice), cap(slice), slice,
+	)
+}
+
 func withCopier() {
 	fmt.Println("withCopier")
 
 	a := newBase()
-	fmt.Println("original:", a)
-	fmt.Println("original BasePtr:", a.BasePtr)
+	inspectBase("a", a)
+	println()
 
+	fmt.Println("Creating b with copier.Copy")
 	var b Base
-	copier.Copy(&b, &a)
+	copier.Copy(&b, a)
+	inspectBase("b", &b)
+
+	inspectStringSlice("a.Slice", a.Slice)
+	inspectStringSlice("b.Slice", b.Slice)
+
+	fmt.Println("Append d to b.Slice")
+	b.Slice = append(b.Slice, "d")
+	inspectStringSlice("a.Slice", a.Slice)
+	inspectStringSlice("b.Slice", b.Slice)
 	fmt.Printf("a.Slice.p = %p\n", a.Slice)
 	fmt.Printf("b.Slice.p = %p\n", b.Slice)
+	fmt.Printf("a.Slice = %#v\n", a.Slice)
+	fmt.Printf("b.Slice = %#v\n", b.Slice)
 
 	newSlice := []string{"c", "b", "a"}
 	fmt.Printf("Clobbering b.Slice with a new slice %#v\n", newSlice)
