@@ -36,6 +36,9 @@ func foo(goexit bool) {
 
 func doIt(finished chan bool) {
 	defer func() {
+		finished <- false // Any bool will do.
+	}()
+	defer func() {
 		fmt.Println("main:deferred.first")
 	}()
 	fmt.Println("main:start")
@@ -59,7 +62,6 @@ func doIt(finished chan bool) {
 	fmt.Println("main:end")
 	defer func() {
 		fmt.Println("main:deferred.last")
-		finished <- false // Any bool will do
 	}()
 }
 
