@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/jinzhu/copier"
 )
@@ -27,35 +27,35 @@ func main() {
 		},
 		Map: m,
 	}
-	log.Println("original:", a)
-	log.Println("original SPointer:", a.SPointer)
+	fmt.Println("original:", a)
+	fmt.Println("original SPointer:", a.SPointer)
 
-	log.Println()
-	log.Println()
+	fmt.Println()
+	fmt.Println()
 
 	var b Base
 	copier.Copy(a, &b)
 	b.Slice = []string{"c", "b", "a"}
 	b.Map = make(map[int]bool)
 	b.Map[3] = false
-	log.Println("b.Pointer:", b.Pointer)
-	log.Println("b.SPointer:", b.SPointer)
+	fmt.Println("b.Pointer:", b.Pointer)
+	fmt.Println("b.SPointer:", b.SPointer)
 	b.SPointer = &Base{
 		Slice: []string{"3", "2", "1"},
 	}
-	log.Println("a after updating b:", a)
-	log.Println("SPointer after updating b:", a.SPointer)
-	log.Println()
-	log.Println()
+	fmt.Println("a after updating b:", a)
+	fmt.Println("SPointer after updating b:", a.SPointer)
+	fmt.Println()
+	fmt.Println()
 
 	c := a
 	c.Slice = []string{"c", "b", "a"}
 	c.Map[3] = false
-	log.Println("c.Pointer:", c.Pointer)
-	log.Println("c.SPointer:", c.SPointer)
+	fmt.Println("c.Pointer:", c.Pointer)
+	fmt.Println("c.SPointer:", c.SPointer)
 	c.Pointer = nil
 	c.SPointer.Slice = []string{"3", "2", "1"}
 
-	log.Println("a after updating c:", a)
-	log.Println("SPointer after updating c:", a.SPointer)
+	fmt.Println("a after updating c:", a)
+	fmt.Println("SPointer after updating c:", a.SPointer)
 }
