@@ -13,6 +13,8 @@ var separator = strings.Repeat("-", 80)
 
 var ut *utter.ConfigState
 
+const verbose = false
+
 func init() {
 	ut = utter.NewDefaultConfig()
 	ut.CommentPointers = true
@@ -75,11 +77,13 @@ func newFoo() *Foo {
 }
 
 func inspectFoo(msg string, base *Foo) {
-	fmt.Printf("%s = %s\n", msg, ut.Sdump(base))
-	inspectStringSlice(msg+".Slice", base.Slice)
-	fmt.Printf("%s.Map pointer=%p\n", msg, base.Map)
-	fmt.Printf("%s.FooPtr: %#v\n", msg, base.FooPtr)
-	fmt.Println()
+	if verbose {
+		fmt.Printf("%s = %s\n", msg, ut.Sdump(base))
+		inspectStringSlice(msg+".Slice", base.Slice)
+		fmt.Printf("%s.Map pointer=%p\n", msg, base.Map)
+		fmt.Printf("%s.FooPtr: %#v\n", msg, base.FooPtr)
+		fmt.Println()
+	}
 }
 
 func inspectStringSlice(msg string, slice []string) {
@@ -138,7 +142,6 @@ func compare(a *Foo, b *Foo) {
 	fmt.Println("Foo.Bar.BazPtr same",
 		pointerOf(a.Bar.BazPtr) == pointerOf(b.Bar.BazPtr),
 	)
-	fmt.Println()
 }
 
 func withCopy(copy func(dest *Foo, source *Foo)) {
@@ -148,28 +151,33 @@ func withCopy(copy func(dest *Foo, source *Foo)) {
 	compare(a, &b)
 
 	fmt.Println()
-	fmt.Println("Updating b.Slice[1] to X")
+	fmt.Println("=== Updating b.Slice[1] to X")
+	fmt.Println()
 	b.Slice[1] = "X"
 	compare(a, &b)
 
 	fmt.Println()
-	fmt.Println("Append d to b.Slice")
+	fmt.Println("=== Append d to b.Slice")
+	fmt.Println()
 	b.Slice = append(b.Slice, "d")
 	compare(a, &b)
 
 	newSlice := []string{"c", "b", "a"}
 	fmt.Println()
-	fmt.Printf("Clobbering b.Slice with a new slice %#v\n", newSlice)
+	fmt.Printf("=== Clobbering b.Slice with a new slice %#v\n", newSlice)
+	fmt.Println()
 	b.Slice = newSlice
 	compare(a, &b)
 
 	fmt.Println()
-	fmt.Println("Updating b.Map[3] to false")
+	fmt.Println("=== Updating b.Map[3] to false")
+	fmt.Println()
 	b.Map[3] = false
 	compare(a, &b)
 
 	fmt.Println()
-	fmt.Println("Clobber b.FooPtr")
+	fmt.Println("=== Clobber b.FooPtr")
+	fmt.Println()
 	b.FooPtr = &Foo{
 		Slice: []string{"3", "2", "1"},
 	}
@@ -197,23 +205,27 @@ func withBuiltinCopy() {
 
 func main() {
 	withCopy(func(dest *Foo, source *Foo) {
+		fmt.Println(separator)
 		fmt.Println("Copying with builtin assignment")
+		fmt.Println(separator)
 		fmt.Println()
 		*dest = *source
 	})
 
 	fmt.Println()
-	fmt.Println(separator)
 	withCopy(func(dest *Foo, source *Foo) {
+		fmt.Println(separator)
 		fmt.Println("Copying with copier")
+		fmt.Println(separator)
 		fmt.Println()
 		copier.Copy(dest, source)
 	})
 
 	fmt.Println()
-	fmt.Println(separator)
 	withCopy(func(dest *Foo, source *Foo) {
+		fmt.Println(separator)
 		fmt.Println("Copying with copier DeepCopy=true")
+		fmt.Println(separator)
 		fmt.Println()
 		copier.CopyWithOption(dest, source, copier.Option{DeepCopy: true})
 	})
