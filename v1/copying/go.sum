@@ -1,2 +1,4 @@
 github.com/jinzhu/copier v0.3.2 h1:QdBOCbaouLDYaIPFfi1bKv5F5tPpeTwXe4sD0jqtz5w=
 github.com/jinzhu/copier v0.3.2/go.mod h1:24xnZezI2Yqac9J61UC6/dG/k76ttpq0DdJI3QmUvro=
+github.com/kortschak/utter v1.2.0 h1:d0xhqYMx0B88ad9f7x9s11AitaoFp05sTrnLgAHsYqQ=
+github.com/kortschak/utter v1.2.0/go.mod h1:vSmSjbyrlKjjsL71193LmzBOKgwePk9DH6uFaWHIInc=

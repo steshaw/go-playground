@@ -2,12 +2,21 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/jinzhu/copier"
+	"github.com/kortschak/utter"
 )
 
 var separator = strings.Repeat("-", 80)
+
+var ut *utter.ConfigState
+
+func init() {
+	ut = utter.NewDefaultConfig()
+	ut.CommentPointers = true
+}
 
 type Baz struct {
 	hello string
@@ -15,18 +24,18 @@ type Baz struct {
 
 type Bar struct {
 	Slice  []int8
+	Map    map[int]bool
 	IntPtr *int32
 	BazPtr *Baz
-	Map    map[int]bool
 }
 
 type Foo struct {
 	Slice     []string
+	Map       map[int]bool
 	StringPtr *string
 	FooPtr    *Foo
 	BarPtr    *Bar
 	Bar       Bar
-	Map       map[int]bool
 }
 
 func newFoo() *Foo {
@@ -66,10 +75,11 @@ func newFoo() *Foo {
 }
 
 func inspectFoo(msg string, base *Foo) {
-	fmt.Printf("%s: %#v\n", msg, base)
+	fmt.Printf("%s = %s\n", msg, ut.Sdump(base))
 	inspectStringSlice(msg+".Slice", base.Slice)
 	fmt.Printf("%s.Map pointer=%p\n", msg, base.Map)
 	fmt.Printf("%s.FooPtr: %#v\n", msg, base.FooPtr)
+	fmt.Println()
 }
 
 func inspectStringSlice(msg string, slice []string) {
@@ -78,45 +88,92 @@ func inspectStringSlice(msg string, slice []string) {
 	)
 }
 
+// pointerOf works for maps and slices (as well as pointers).
+// Doesn't work for strings.
+func pointerOf(a interface{}) uintptr {
+	return reflect.ValueOf(a).Pointer()
+}
+
+func compare(a *Foo, b *Foo) {
+	inspectFoo("a", a)
+	inspectFoo("b", b)
+
+	// Using unsafe.Pointer() on maps and slices does not work.
+	//fmt.Println("Foo.Map same", unsafe.Pointer(a.Map) == unsafe.Pointer(b.Map))
+	//fmt.Println("Foo.Slice same", unsafe.Pointer(a.Slice) == unsafe.Pointer(b.Slice))
+
+	fmt.Println("Foo same", pointerOf(a) == pointerOf(b))
+	fmt.Println()
+
+	fmt.Println("Foo.Slice same", pointerOf(a.Slice) == pointerOf(b.Slice))
+	fmt.Println("Foo.Map same", pointerOf(a.Map) == pointerOf(b.Map))
+	fmt.Println("Foo.StringPtr same", pointerOf(a.StringPtr) == pointerOf(b.StringPtr))
+	fmt.Println("Foo.FooPtr same", pointerOf(a.FooPtr) == pointerOf(b.FooPtr))
+	fmt.Println("Foo.BarPtr same", pointerOf(a.BarPtr) == pointerOf(b.BarPtr))
+	fmt.Println()
+
+	fmt.Println("Foo.BarPtr.Slice same",
+		pointerOf(a.BarPtr.Slice) == pointerOf(b.BarPtr.Slice),
+	)
+	fmt.Println("Foo.BarPtr.Map same",
+		pointerOf(a.BarPtr.Map) == pointerOf(b.BarPtr.Map),
+	)
+	fmt.Println("Foo.BarPtr.IntPtr same",
+		pointerOf(a.BarPtr.IntPtr) == pointerOf(b.BarPtr.IntPtr),
+	)
+	fmt.Println("Foo.BarPtr.BazPtr same",
+		pointerOf(a.BarPtr.BazPtr) == pointerOf(b.BarPtr.BazPtr),
+	)
+	fmt.Println()
+
+	fmt.Println("Foo.Bar.Slice same",
+		pointerOf(a.Bar.Slice) == pointerOf(b.Bar.Slice),
+	)
+	fmt.Println("Foo.Bar.Map same",
+		pointerOf(a.Bar.Map) == pointerOf(b.Bar.Map),
+	)
+	fmt.Println("Foo.Bar.IntPtr same",
+		pointerOf(a.Bar.IntPtr) == pointerOf(b.Bar.IntPtr),
+	)
+	fmt.Println("Foo.Bar.BazPtr same",
+		pointerOf(a.Bar.BazPtr) == pointerOf(b.Bar.BazPtr),
+	)
+	fmt.Println()
+}
+
 func withCopy(copy func(dest *Foo, source *Foo)) {
 	a := newFoo()
 	var b Foo
 	copy(&b, a)
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 
 	fmt.Println()
 	fmt.Println("Updating b.Slice[1] to X")
 	b.Slice[1] = "X"
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 
 	fmt.Println()
 	fmt.Println("Append d to b.Slice")
 	b.Slice = append(b.Slice, "d")
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 
 	newSlice := []string{"c", "b", "a"}
 	fmt.Println()
 	fmt.Printf("Clobbering b.Slice with a new slice %#v\n", newSlice)
 	b.Slice = newSlice
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 
 	fmt.Println()
 	fmt.Println("Updating b.Map[3] to false")
 	b.Map[3] = false
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 
 	fmt.Println()
 	fmt.Println("Clobber b.FooPtr")
 	b.FooPtr = &Foo{
 		Slice: []string{"3", "2", "1"},
 	}
-	inspectFoo("a", a)
-	inspectFoo("b", &b)
+	compare(a, &b)
 }
 
 func withBuiltinCopy() {
