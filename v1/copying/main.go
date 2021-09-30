@@ -14,6 +14,7 @@ var separator = strings.Repeat("-", 80)
 var ut *utter.ConfigState
 
 const verbose = false
+const allOperations = false
 
 func init() {
 	ut = utter.NewDefaultConfig()
@@ -150,38 +151,40 @@ func withCopy(copy func(dest *Foo, source *Foo)) {
 	copy(&b, a)
 	compare(a, &b)
 
-	fmt.Println()
-	fmt.Println("=== Updating b.Slice[1] to X")
-	fmt.Println()
-	b.Slice[1] = "X"
-	compare(a, &b)
+	if allOperations {
+		fmt.Println()
+		fmt.Println("=== Updating b.Slice[1] to X")
+		fmt.Println()
+		b.Slice[1] = "X"
+		compare(a, &b)
 
-	fmt.Println()
-	fmt.Println("=== Append d to b.Slice")
-	fmt.Println()
-	b.Slice = append(b.Slice, "d")
-	compare(a, &b)
+		fmt.Println()
+		fmt.Println("=== Append d to b.Slice")
+		fmt.Println()
+		b.Slice = append(b.Slice, "d")
+		compare(a, &b)
 
-	newSlice := []string{"c", "b", "a"}
-	fmt.Println()
-	fmt.Printf("=== Clobbering b.Slice with a new slice %#v\n", newSlice)
-	fmt.Println()
-	b.Slice = newSlice
-	compare(a, &b)
+		newSlice := []string{"c", "b", "a"}
+		fmt.Println()
+		fmt.Printf("=== Clobbering b.Slice with a new slice %#v\n", newSlice)
+		fmt.Println()
+		b.Slice = newSlice
+		compare(a, &b)
 
-	fmt.Println()
-	fmt.Println("=== Updating b.Map[3] to false")
-	fmt.Println()
-	b.Map[3] = false
-	compare(a, &b)
+		fmt.Println()
+		fmt.Println("=== Updating b.Map[3] to false")
+		fmt.Println()
+		b.Map[3] = false
+		compare(a, &b)
 
-	fmt.Println()
-	fmt.Println("=== Clobber b.FooPtr")
-	fmt.Println()
-	b.FooPtr = &Foo{
-		Slice: []string{"3", "2", "1"},
+		fmt.Println()
+		fmt.Println("=== Clobber b.FooPtr")
+		fmt.Println()
+		b.FooPtr = &Foo{
+			Slice: []string{"3", "2", "1"},
+		}
+		compare(a, &b)
 	}
-	compare(a, &b)
 }
 
 func withBuiltinCopy() {
