@@ -111,14 +111,39 @@ func slices3() {
 	fmt.Printf("src=%v\n", src)
 
 	t := func(dst []int8) {
-		fmt.Printf("dst=%v\n", dst)
+		dst2 := dst // Alias
+		// Copy all items into dst3
+		dst3 := make([]int8, len(dst))
+		copy(dst3, dst)
+
+		fmt.Println("--")
+		fmt.Printf("dst=%v dst2=%v\n", dst, dst2)
 		num := copy(dst, src)
 		fmt.Printf("copied %d items from src=%v to dst=%v\n", num, src, dst)
+
+		{
+			result := append(dst2, src...)
+			fmt.Printf("append(src=%v to dst2=%v) => %v\n", src, dst2, result)
+			fmt.Printf(
+				"Finally src=%v, dst=%v, dst2=%v, dst3=%v, result=%v\n",
+				src, dst, dst2, dst3, result,
+			)
+		}
+
+		{
+			result := append(dst3, src...)
+			fmt.Printf("append(src=%v to dst3=%v) => %v\n", src, dst3, result)
+			fmt.Printf(
+				"Finally src=%v, dst=%v, dst2=%v, dst3=%v, result=%v\n",
+				src, dst, dst2, dst3, result,
+			)
+		}
 	}
 
 	for i := 0; i < 5; i++ {
 		t(make([]int8, i))
 	}
+
 	t([]int8{95})
 	t([]int8{95, 96})
 	t([]int8{95, 96, 97})
