@@ -37,11 +37,13 @@ func slices1() {
 	fmt.Println(strings.Join(ns, ""))
 	fmt.Println(strings.Join(ns2, ""))
 }
+
 func clone(strs []string) []string {
 	result := make([]string, len(strs))
 	copy(result, strs)
 	return result
 }
+
 func slices2() {
 	fmt.Println("")
 	fmt.Println("Slices 2")
@@ -100,7 +102,32 @@ func slices2() {
 	fmt.Println("ss4 =", ss4)
 	fmt.Println("--")
 }
+
+func slices3() {
+	fmt.Println("")
+	fmt.Println("Slices 3")
+	fmt.Println("--------")
+	src := []int8{1, 2, 3}
+	fmt.Printf("src=%v\n", src)
+
+	t := func(dst []int8) {
+		fmt.Printf("dst=%v\n", dst)
+		num := copy(dst, src)
+		fmt.Printf("copied %d items from src=%v to dst=%v\n", num, src, dst)
+	}
+
+	for i := 0; i < 5; i++ {
+		t(make([]int8, i))
+	}
+	t([]int8{95})
+	t([]int8{95, 96})
+	t([]int8{95, 96, 97})
+	t([]int8{95, 96, 97, 98})
+	t([]int8{95, 96, 97, 98, 99})
+}
+
 func main() {
 	slices1()
 	slices2()
+	slices3()
 }
