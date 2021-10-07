@@ -11,24 +11,40 @@ type Point struct {
 	Y int `json:"y"`
 }
 
+func (p *Point) MarshalJSON() ([]byte, error) {
+	return []byte(`["hi"]`), nil
+}
+
 type Person struct {
-	Point
+	Point    Point
 	Name     string `json:"name"`
 	AgeYears int    `json:"age"`
 	SSN      int    `json:"ssn"`
 }
 
+func (p *Person) MarshalJSON() ([]byte, error) {
+	return []byte(`["hi"]`), nil
+}
+
 func main() {
-	// And that for some reason, like JSON you also have:
-	aux := Person{
+	p := Person{
 		Point:    Point{2, 3},
 		Name:     "Steven Shaw",
 		AgeYears: 21,
 		SSN:      1000000001,
 	}
 
-	marshaled, err := json.Marshal(aux)
+	marshaled, err := json.Marshal(p)
 	if err == nil {
-		fmt.Println(string(marshaled))
+		fmt.Println("p =", string(marshaled))
+	} else {
+		fmt.Println(err)
+	}
+
+	marshaled, err = json.Marshal(&p)
+	if err == nil {
+		fmt.Println("&p =", string(marshaled))
+	} else {
+		fmt.Println(err)
 	}
 }
