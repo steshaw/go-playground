@@ -1,6 +1,9 @@
 package role
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type Role struct {
 	slug string
@@ -30,5 +33,5 @@ func FromString(s string) (Role, error) {
 		return Admin, nil
 	}
 
-	return Unknown, errors.New("unknown role: " + s)
+	return Unknown, errors.New(fmt.Sprintf("unknown role: «%s»", s))
 }

@@ -1,0 +1,33 @@
+Oops, creating an empty/zero Role{}
+role = «», role == Unknown = true
+Creating user with role 
+user = User(role=«»)
+
+Creating a guest
+role = «guest», role == Unknown = false
+Creating user with role guest
+user = User(role=«guest»)
+
+Creating a member
+role = «member», role == Unknown = false
+Creating user with role member
+user = User(role=«member»)
+
+Creating a moderator
+role = «moderator», role == Unknown = false
+Creating user with role moderator
+user = User(role=«moderator»)
+
+Creating an admin
+role = «admin», role == Unknown = false
+Creating user with role admin
+user = User(role=«admin»)
+
+Creating a role from string 'guest'
+role = «guest», role == Unknown = false
+Creating user with role guest
+user = User(role=«guest»)
+
+Illegal role 'user', err=«unknown role: «user»» role=«»
+Illegal role 'foo', err=«unknown role: «foo»» role=«»
+Illegal role '', err=«unknown role: «»» role=«»

@@ -11,6 +11,10 @@ type User struct {
 	role role.Role
 }
 
+func (u User) String() string {
+	return fmt.Sprintf("User(role=«%s»)", u.role.String())
+}
+
 func CreateUser(role Role) (User, error) {
 	fmt.Println("Creating user with role", role)
 	return User{role}, nil
