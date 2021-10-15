@@ -4,8 +4,16 @@ import (
 	"fmt"
 )
 
+// The Role algebra.
+type roleAlg struct {
+	member    func()
+	moderator func()
+	guest     func()
+	admin     func()
+}
+
 type Role struct {
-	fold func(func(), func(), func(), func())
+	fold func(roleAlg)
 }
 
 var (
@@ -13,44 +21,16 @@ var (
 		fold: nil,
 	}
 	Guest = Role{
-		fold: func(
-			member func(),
-			moderator func(),
-			guest func(),
-			admin func(),
-		) {
-			guest()
-		},
+		fold: func(alg roleAlg) { alg.guest() },
 	}
 	Member = Role{
-		fold: func(
-			member func(),
-			moderator func(),
-			guest func(),
-			admin func(),
-		) {
-			member()
-		},
+		fold: func(alg roleAlg) { alg.member() },
 	}
 	Moderator = Role{
-		fold: func(
-			member func(),
-			moderator func(),
-			guest func(),
-			admin func(),
-		) {
-			moderator()
-		},
+		fold: func(alg roleAlg) { alg.moderator() },
 	}
 	Admin = Role{
-		fold: func(
-			member func(),
-			moderator func(),
-			guest func(),
-			admin func(),
-		) {
-			admin()
-		},
+		fold: func(alg roleAlg) { alg.admin() },
 	}
 )
 
@@ -59,15 +39,13 @@ func (r Role) String() string {
 		return ""
 	}
 	var result string
-	r.fold(func() {
-		result = "member"
-	}, func() {
-		result = "moderator"
-	}, func() {
-		result = "guest"
-	}, func() {
-		result = "admin"
-	})
+	alg := roleAlg{
+		member:    func() { result = "member" },
+		moderator: func(){result = "moderator"},
+		guest:     func (){result = "guest"},
+		admin:     func (){result = "admin"},
+	}
+	r.fold(alg)
 	return result
 }
 

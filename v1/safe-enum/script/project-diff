@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+go run main.go | diff ../struct-string/expected.txt -

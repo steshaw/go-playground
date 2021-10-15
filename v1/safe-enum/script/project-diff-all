@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+cd "$PROJECT_HOME"
+
+for dir in *; do
+  if [[ $dir != script ]]; then
+    echo "$dir"
+    (cd "${dir}" && project-diff)
+  fi
+done
