@@ -42,6 +42,7 @@ func main() {
 		role, err := role.FromString(s)
 		if err != nil {
 			fmt.Printf("Illegal role '%s', err=«%v» role=«%v»\n", s, err, role)
+			fmt.Println()
 		} else {
 			doCreateUser(fmt.Sprintf("Creating a role from string '%s'", s), role)
 		}
@@ -50,4 +51,6 @@ func main() {
 	doFromString("user")
 	doFromString("foo")
 	doFromString("")
+
+	fmt.Println("Two unknowns equal?", Unknown.Eq(Role{}))
 }

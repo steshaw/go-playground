@@ -29,5 +29,9 @@ Creating user with role guest
 user = User(role=«guest»)
 
 Illegal role 'user', err=«unknown role: «user»» role=«»
+
 Illegal role 'foo', err=«unknown role: «foo»» role=«»
+
 Illegal role '', err=«unknown role: «»» role=«»
+
+Two unknowns equal? true
