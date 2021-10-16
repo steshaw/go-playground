@@ -2,7 +2,6 @@ package role
 
 import (
 	"fmt"
-	"reflect"
 )
 
 // The Role algebra.
@@ -28,18 +27,57 @@ func (r Role) String() string {
 		return ""
 	}
 	var result string
-	alg := roleAlg{
+	r(roleAlg{
 		member:    func() { result = "member" },
 		moderator: func() { result = "moderator" },
 		guest:     func() { result = "guest" },
 		admin:     func() { result = "admin" },
-	}
-	r(alg)
+	})
 	return result
 }
 
 func (r Role) Eq(r2 Role) bool {
-	return reflect.ValueOf(r).Pointer() == reflect.ValueOf(r2).Pointer()
+	if r == nil || r2 == nil {
+		return r == nil && r2 == nil
+	}
+	var result bool
+	t := func() { result = true }
+	f := func() { result = false }
+	r(roleAlg{
+		member: func() {
+			r2(roleAlg{
+				member:    t,
+				moderator: f,
+				guest:     f,
+				admin:     f,
+			})
+		},
+		moderator: func() {
+			r2(roleAlg{
+				member:    f,
+				moderator: t,
+				guest:     f,
+				admin:     f,
+			})
+		},
+		guest: func() {
+			r2(roleAlg{
+				member:    f,
+				moderator: f,
+				guest:     t,
+				admin:     f,
+			})
+		},
+		admin: func() {
+			r2(roleAlg{
+				member:    f,
+				moderator: f,
+				guest:     f,
+				admin:     t,
+			})
+		},
+	})
+	return result
 }
 
 func FromString(s string) (Role, error) {
