@@ -12,40 +12,28 @@ type roleAlg struct {
 	admin     func()
 }
 
-type Role struct {
-	fold func(roleAlg)
-}
+type Role func(roleAlg)
 
 var (
-	Unknown = Role{
-		fold: nil,
-	}
-	Guest = Role{
-		fold: func(alg roleAlg) { alg.guest() },
-	}
-	Member = Role{
-		fold: func(alg roleAlg) { alg.member() },
-	}
-	Moderator = Role{
-		fold: func(alg roleAlg) { alg.moderator() },
-	}
-	Admin = Role{
-		fold: func(alg roleAlg) { alg.admin() },
-	}
+	Unknown   = Role(nil)
+	Guest     = Role(func(alg roleAlg) { alg.guest() })
+	Member    = Role(func(alg roleAlg) { alg.member() })
+	Moderator = Role(func(alg roleAlg) { alg.moderator() })
+	Admin     = Role(func(alg roleAlg) { alg.admin() })
 )
 
 func (r Role) String() string {
-	if r.fold == nil {
+	if r == nil {
 		return ""
 	}
 	var result string
 	alg := roleAlg{
 		member:    func() { result = "member" },
-		moderator: func(){result = "moderator"},
-		guest:     func (){result = "guest"},
-		admin:     func (){result = "admin"},
+		moderator: func() { result = "moderator" },
+		guest:     func() { result = "guest" },
+		admin:     func() { result = "admin" },
 	}
-	r.fold(alg)
+	r(alg)
 	return result
 }
 

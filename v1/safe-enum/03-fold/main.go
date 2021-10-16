@@ -32,7 +32,7 @@ func main() {
 		}
 		fmt.Println()
 	}
-	doCreateUser("Oops, creating an empty/zero Role{}", Role{})
+	doCreateUser("Oops, creating an empty/zero Role{}", nil)
 	doCreateUser("Creating a guest", Guest)
 	doCreateUser("Creating a member", Member)
 	doCreateUser("Creating a moderator", Moderator)
@@ -52,5 +52,5 @@ func main() {
 	doFromString("foo")
 	doFromString("")
 
-	fmt.Println("Two unknowns equal?", Unknown.Eq(Role{}))
+	fmt.Println("Two unknowns equal?", Unknown.Eq(nil))
 }

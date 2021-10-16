@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-go run main.go | diff ../struct-string/expected.txt -
+go run main.go | diff ../01-struct-string/expected.txt -

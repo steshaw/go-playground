@@ -1,3 +1,3 @@
-# struct-fold
+# fold
 
 A safer enum.
