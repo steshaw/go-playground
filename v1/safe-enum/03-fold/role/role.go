@@ -2,6 +2,7 @@ package role
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // The Role algebra.
@@ -38,7 +39,7 @@ func (r Role) String() string {
 }
 
 func (r Role) Eq(r2 Role) bool {
-	return r.String() == r2.String()
+	return reflect.ValueOf(r).Pointer() == reflect.ValueOf(r2).Pointer()
 }
 
 func FromString(s string) (Role, error) {
@@ -54,4 +55,8 @@ func FromString(s string) (Role, error) {
 	}
 
 	return Unknown, fmt.Errorf("unknown role: «%s»", s)
+}
+
+func Roles() []Role {
+	return []Role{Guest, Member, Moderator, Admin}
 }

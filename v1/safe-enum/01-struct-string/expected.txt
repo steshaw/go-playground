@@ -34,4 +34,26 @@ Illegal role 'foo', err=«unknown role: «foo»» role=«»
 
 Illegal role '', err=«unknown role: «»» role=«»
 
+Roles() = [guest member moderator admin]
+guest
+member
+moderator
+admin
+
 Two unknowns equal? true
+guest == guest = true
+guest == member = false
+guest == moderator = false
+guest == admin = false
+member == guest = false
+member == member = true
+member == moderator = false
+member == admin = false
+moderator == guest = false
+moderator == member = false
+moderator == moderator = true
+moderator == admin = false
+admin == guest = false
+admin == member = false
+admin == moderator = false
+admin == admin = true

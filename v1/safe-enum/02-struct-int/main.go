@@ -52,5 +52,19 @@ func main() {
 	doFromString("foo")
 	doFromString("")
 
+	// Print all
+	fmt.Printf("Roles() = %v\n", Roles())
+	for _, r := range Roles() {
+		fmt.Println(r)
+	}
+	fmt.Println()
+
+	// Compare
 	fmt.Println("Two unknowns equal?", Unknown == Role{})
+
+	for _, r1 := range Roles() {
+		for _, r2 := range Roles() {
+			fmt.Printf("%v == %v = %v\n", r1, r2, r1 == r2)
+		}
+	}
 }

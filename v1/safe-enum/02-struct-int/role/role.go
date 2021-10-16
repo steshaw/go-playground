@@ -55,3 +55,7 @@ func FromString(s string) (Role, error) {
 
 	return Unknown, errors.New(fmt.Sprintf("unknown role: «%s»", s))
 }
+
+func Roles() []Role {
+	return []Role{Guest, Member, Moderator, Admin}
+}

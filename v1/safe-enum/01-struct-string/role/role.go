@@ -1,7 +1,6 @@
 package role
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -33,5 +32,9 @@ func FromString(s string) (Role, error) {
 		return Admin, nil
 	}
 
-	return Unknown, errors.New(fmt.Sprintf("unknown role: «%s»", s))
+	return Unknown, fmt.Errorf("unknown role: «%s»", s)
+}
+
+func Roles() []Role {
+	return []Role{Guest, Member, Moderator, Admin}
 }
