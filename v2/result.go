@@ -69,17 +69,35 @@ func checkEq[T comparable, E comparable](a, b Result[T, E]) {
 	fmt.Printf("a=%v b=%v b.Eq(a)=%v\n", a, b, b.Eq(a))
 }
 
+func checkEqs[T comparable, E comparable](rs []Result[T, E]) {
+	fmt.Printf("Checking %v\n", rs)
+	for _, r1 := range rs {
+		for _, r2 := range rs {
+			checkEq(r1, r2)
+		}
+	}
+	fmt.Println()
+}
+
 func main() {
 	fmt.Println(div(42, 7))
 	fmt.Println(div(42, 6))
-	fmt.Println(div(3, 0))
+	fmt.Println(div(3, 0))	
+	fmt.Println()
 
-	checkEq(Ok[int, string](1), Ok[int, string](1))
-	checkEq(Ok[int, string](1), Ok[int, string](2))
-	checkEq(Ok[int, string](1), Err[int, string]("argh!"))
+	checkEqs([]Result[int, string]{
+		Ok[int, string](1),
+		Ok[int, string](2),
+		Err[int, string]("ouf!"),
+	})
 
-	checkEq(Ok[int, string]('a'), Ok[int, string]('b'))
-	checkEq(Ok[byte, string]('a'), Ok[byte, string]('a'))
-	checkEq(Ok[string, string]("foo"), Ok[string, string]("bar"))
-	checkEq(Ok[string, string]("hi"), Ok[string, string]("hi"))
+	checkEqs([]Result[int, string]{
+		Ok[int, string]('a'),
+		Ok[int, string]('b'),
+	})
+
+	checkEqs([]Result[string, string]{
+		Ok[string, string]("foo"), Ok[string, string]("bar"),
+		Ok[string, string]("hi"), Ok[string, string]("hi"),
+	})
 }
