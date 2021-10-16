@@ -35,5 +35,5 @@ func show[A Show](as ...A) {
 func main() {
 	show(String("Hello"), String("there"))
 	show(Int(42), Int(3), Int(9))
-	show(Show(Rune('a')), Show(Int(3)), Show(String("foo")))
+	show[Show](Rune('a'), Int(3), String("foo"))
 }
