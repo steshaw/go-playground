@@ -33,7 +33,7 @@ func (self Result[T, E]) String() string {
 	return result
 }
 
-func konst[T any](b bool) func (T) {
+func konst[T any](b bool) func(T) {
 	return func(_ T) { /* TODO */ }
 }
 
@@ -58,9 +58,9 @@ func (r Result[T, E]) Eq(r2 Result[T, E]) bool {
 
 func div(n int, m int) Result[int, string] {
 	if m == 0 {
-		return Err[int,string]("Divide by zero!")
+		return Err[int, string]("Divide by zero!")
 	} else {
-		return Ok[int,string](n / m)
+		return Ok[int, string](n / m)
 	}
 }
 
@@ -74,10 +74,12 @@ func main() {
 	fmt.Println(div(42, 6))
 	fmt.Println(div(3, 0))
 
-	checkEq(Ok[int,string](1), Ok[int,string](1))
-	checkEq(Ok[int,string](1), Ok[int,string](2))
-	checkEq(Ok[int,string]('a'), Ok[int,string]('b'))
-	checkEq(Ok[byte,string]('a'), Ok[byte,string]('a'))
-	checkEq(Ok[string,string]("foo"), Ok[string,string]("bar"))
-	checkEq(Ok[string,string]("hi"), Ok[string,string]("hi"))
+	checkEq(Ok[int, string](1), Ok[int, string](1))
+	checkEq(Ok[int, string](1), Ok[int, string](2))
+	checkEq(Ok[int, string](1), Err[int, string]("argh!"))
+
+	checkEq(Ok[int, string]('a'), Ok[int, string]('b'))
+	checkEq(Ok[byte, string]('a'), Ok[byte, string]('a'))
+	checkEq(Ok[string, string]("foo"), Ok[string, string]("bar"))
+	checkEq(Ok[string, string]("hi"), Ok[string, string]("hi"))
 }
