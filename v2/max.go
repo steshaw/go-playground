@@ -29,6 +29,8 @@ func Max[A Ordered](as ...A) (A, error) {
 }
 
 func main() {
-  fmt.Println(Max(1,6,4,2))
-  fmt.Println(Max[int]())
+  max, err := Max(1,6,4,2)
+  fmt.Printf("max = %d, err=%v\n", max, err)
+  max, err = Max[int]()
+  fmt.Printf("max = %d, err=%v\n", max, err)
 }
