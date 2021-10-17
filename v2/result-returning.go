@@ -63,24 +63,37 @@ func div[B any](n int, m int) Result[int, string, B] {
 	}
 }
 
-func checkEq[T comparable, E comparable, B any](a, b Result[T, E, B]) {
+func checkEq[T comparable, E comparable](
+	aBool, bBool Result[T, E, bool],
+	aString, bString Result[T, E, string],
+) {
 	fmt.Printf("a=%v b=%v Eq(a, b)=%v\n",
-		toString(a),
-		toString(b),
-		Eq(a, b),
+		toString(aString),
+		toString(bString),
+		Eq(aBool, bBool),
 	)
 	fmt.Printf("a=%v b=%v Eq(b, a)=%v\n",
-		toString(a),
-		toString(b),
-		Eq(b, a),
+		toString(aString),
+		toString(bString),
+		Eq(bBool, aBool),
 	)
 }
 
-func checkEqs[T comparable, E comparable](rs []Result[T, E, bool]) {
-	fmt.Printf("Checking %v\n", rs)
-	for _, r1 := range rs {
-		for _, r2 := range rs {
-			checkEq[T, E, bool](r1, r2)
+func checkEqs[T comparable, E comparable](rsB []Result[T, E, bool], rsS []Result[T, E, string]) {
+	//fmt.Printf("Checking %v\n", rsS)	
+	// strings := rsS.map(toString)
+        strings := []string{}
+	for _, r := range rsS {
+		strings = append(strings, toString(r))
+	}	
+	fmt.Printf("Checking %v\n", strings)
+
+
+	for i, r1 := range rsB {
+		for j, r2 := range rsB {		
+			r1s := rsS[i]			
+			r2s := rsS[j]
+			checkEq[T, E](r1, r2, r1s, r2s)
 		}
 	}
 	fmt.Println()
@@ -99,8 +112,15 @@ func main() {
 		Ok[int, string, bool](2),
 		Err[int, string, bool]("ouf!"),
 		Err[int, string, bool]("nah!"),
+	},		
+[]Result[int, string, string]{
+		Ok[int, string, string](1),
+		Ok[int, string, string](2),
+		Err[int, string, string]("ouf!"),
+		Err[int, string, string]("nah!"),
 	})
 
+/*
 	checkEqs([]Result[int, string, bool]{
 		Ok[int, string, bool]('a'),
 		Ok[int, string, bool]('b'),
@@ -114,5 +134,5 @@ func main() {
 		Err[string, error, bool](fmt.Errorf("naf!")),
 		Err[string, error, bool](fmt.Errorf("nagh!")),
 	})
+*/
 }
-
