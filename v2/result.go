@@ -34,7 +34,7 @@ func (self Result[T, E]) String() string {
 }
 
 func konst[T any, B any](b B, bp *B) func(T) {
-	return func(_ T) { *bp = b  }
+	return func(_ T) { *bp = b }
 }
 
 func (r Result[T, E]) Eq(r2 Result[T, E]) bool {
@@ -49,7 +49,7 @@ func (r Result[T, E]) Eq(r2 Result[T, E]) bool {
 		err: func(e E) {
 			r2(resultAlg[T, E]{
 				ok:  konst[T, bool](false, &result),
-				err: func(e2 E) {result = e == e2},
+				err: func(e2 E) { result = e == e2 },
 			})
 		},
 	})
@@ -82,7 +82,7 @@ func checkEqs[T comparable, E comparable](rs []Result[T, E]) {
 func main() {
 	fmt.Println(div(42, 7))
 	fmt.Println(div(42, 6))
-	fmt.Println(div(3, 0))	
+	fmt.Println(div(3, 0))
 	fmt.Println()
 
 	checkEqs([]Result[int, string]{
