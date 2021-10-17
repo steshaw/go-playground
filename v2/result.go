@@ -33,8 +33,8 @@ func (self Result[T, E]) String() string {
 	return result
 }
 
-func konst[T any](b bool) func(T) {
-	return func(_ T) { /* TODO */ }
+func konst[T any, B any](b B, bp *B) func(T) {
+	return func(_ T) { *bp = b  }
 }
 
 func (r Result[T, E]) Eq(r2 Result[T, E]) bool {
@@ -43,13 +43,13 @@ func (r Result[T, E]) Eq(r2 Result[T, E]) bool {
 		ok: func(a T) {
 			r2(resultAlg[T, E]{
 				ok:  func(b T) { result = a == b },
-				err: konst[E](false),
+				err: konst[E, bool](false, &result),
 			})
 		},
-		err: func(a E) {
+		err: func(e E) {
 			r2(resultAlg[T, E]{
-				ok:  konst[T](false),
-				err: konst[E](true),
+				ok:  konst[T, bool](false, &result),
+				err: func(e2 E) {result = e == e2},
 			})
 		},
 	})
@@ -89,15 +89,20 @@ func main() {
 		Ok[int, string](1),
 		Ok[int, string](2),
 		Err[int, string]("ouf!"),
+		Err[int, string]("nah!"),
 	})
 
 	checkEqs([]Result[int, string]{
 		Ok[int, string]('a'),
 		Ok[int, string]('b'),
+		Err[int, string]("ouch!"),
+		Err[int, string]("argh!"),
 	})
 
-	checkEqs([]Result[string, string]{
-		Ok[string, string]("foo"), Ok[string, string]("bar"),
-		Ok[string, string]("hi"), Ok[string, string]("hi"),
+	checkEqs([]Result[string, error]{
+		Ok[string, error]("foo"),
+		Ok[string, error]("bar"),
+		Err[string, error](fmt.Errorf("naf!")),
+		Err[string, error](fmt.Errorf("nagh!")),
 	})
 }
