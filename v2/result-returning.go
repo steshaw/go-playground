@@ -80,18 +80,17 @@ func checkEq[T comparable, E comparable](
 }
 
 func checkEqs[T comparable, E comparable](rsB []Result[T, E, bool], rsS []Result[T, E, string]) {
-	//fmt.Printf("Checking %v\n", rsS)	
+	//fmt.Printf("Checking %v\n", rsS)
 	// strings := rsS.map(toString)
-        strings := []string{}
+	strings := []string{}
 	for _, r := range rsS {
 		strings = append(strings, toString(r))
-	}	
+	}
 	fmt.Printf("Checking %v\n", strings)
 
-
 	for i, r1 := range rsB {
-		for j, r2 := range rsB {		
-			r1s := rsS[i]			
+		for j, r2 := range rsB {
+			r1s := rsS[i]
 			r2s := rsS[j]
 			checkEq[T, E](r1, r2, r1s, r2s)
 		}
@@ -112,27 +111,26 @@ func main() {
 		Ok[int, string, bool](2),
 		Err[int, string, bool]("ouf!"),
 		Err[int, string, bool]("nah!"),
-	},		
-[]Result[int, string, string]{
+	}, []Result[int, string, string]{
 		Ok[int, string, string](1),
 		Ok[int, string, string](2),
 		Err[int, string, string]("ouf!"),
 		Err[int, string, string]("nah!"),
 	})
 
-/*
-	checkEqs([]Result[int, string, bool]{
-		Ok[int, string, bool]('a'),
-		Ok[int, string, bool]('b'),
-		Err[int, string, bool]("ouch!"),
-		Err[int, string, bool]("argh!"),
-	})
+	/*
+		checkEqs([]Result[int, string, bool]{
+			Ok[int, string, bool]('a'),
+			Ok[int, string, bool]('b'),
+			Err[int, string, bool]("ouch!"),
+			Err[int, string, bool]("argh!"),
+		})
 
-	checkEqs([]Result[string, error, bool]{
-		Ok[string, error, bool]("foo"),
-		Ok[string, error, bool]("bar"),
-		Err[string, error, bool](fmt.Errorf("naf!")),
-		Err[string, error, bool](fmt.Errorf("nagh!")),
-	})
-*/
+		checkEqs([]Result[string, error, bool]{
+			Ok[string, error, bool]("foo"),
+			Ok[string, error, bool]("bar"),
+			Err[string, error, bool](fmt.Errorf("naf!")),
+			Err[string, error, bool](fmt.Errorf("nagh!")),
+		})
+	*/
 }
