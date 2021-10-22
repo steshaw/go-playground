@@ -1,25 +1,34 @@
-module Main where
+{-# LANGUAGE RankNTypes #-}
 
-data Option t = None | Some t
+module Main where
 
 data FoldAlg t r = FoldAlg {
   faOnNone :: () -> r,
   faOnSome :: t -> r
   }
 
-foldOption :: FoldAlg t r -> Option t -> r
-foldOption (FoldAlg onNone _onSome) None = onNone ()
-foldOption (FoldAlg _onNone onSome) (Some a) = onSome a
+newtype Option t = Option {
+  unOption :: forall r. (() -> r) -> (t -> r) -> r
+  }
 
-inspect :: Show a => Option a -> IO ()
-inspect = foldOption (FoldAlg onNone onSome)
+none :: () -> Option t
+none () = Option $ \onNone _onSome -> onNone ()
+
+some :: t -> Option t
+some a = Option $ \_onNone onSome -> onSome a
+
+optionAlg :: FoldAlg t (Option t)
+optionAlg = FoldAlg none some
+
+inspect :: Show t => Option t -> IO ()
+inspect option = unOption option onNone onSome
   where
     onNone () = putStrLn "No"
     onSome a = putStrLn ("Yes " ++ show a)
 
 main :: IO ()
 main = do
-  let v = Some 1
-  let n = None :: Option Char
+  let v = some 1
+  let n = none () :: Option Char
   inspect v
   inspect n
