@@ -72,7 +72,7 @@ type Exp interface {
 // quantification for methods, this safety guarantee would come for
 // free.
 type ety interface {
-	type bool, int
+	bool | int
 }
 
 // exp[t] is typed expression of DSL-type t, which is also the Go type
