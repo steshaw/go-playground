@@ -8,7 +8,7 @@
 // contains the target language expression.
 //
 // Normally this requires either GADTs or higher-rank types. I show
-// that it is possible to encode it in Go, a language which doesn't
+// that it is possible to encode it in Go, a language that doesn't
 // have GADTs (nor regular ADTs for that matter), nor higher-rank
 // types. I exploit the duality between universal and existential
 // quantification and encode sum types using the existential dual of the
@@ -19,7 +19,7 @@
 //
 // Just like an algebraic data type, my encoding is closed, its usage
 // is type safe, and the match operations are checked at compile-time
-// for exhaustivness.
+// for exhaustiveness.
 //
 // A related, alternative encoding would be to encode the GADT into
 // tagless-final style. This requires polymorphic terms, which in Go
@@ -81,7 +81,7 @@ type ety interface {
 // t is a phantom type. It exists purely at compile-time to participate
 // in type-checking, but it doesn't leave any record at runtime. The
 // encoding is tagless. As such, we can hide it behind an existential
-// and have heterogenous lists of expressions.
+// and have heterogeneous lists of expressions.
 type exp[t ety] interface {
 	Exp
 	is(exp[t])
@@ -89,7 +89,7 @@ type exp[t ety] interface {
 
 // ExpBoolVars are sets of continuations for the possible processings
 // of the ADT. They are the projections of the ADT constructors over
-// its denotations reclasified by the denotations. Notice the type
+// its denotations reclassified by the denotations. Notice the type
 // refinement.
 //
 // For this to work, the set of classes of internal denotations must
@@ -170,7 +170,7 @@ type if_[t ety] struct {
 }
 
 // The MatchExp methods implement exp[t]. Each function selects the
-// appropiate continuations, continues it, then returns an ADT containing
+// appropriate continuations, continues it, then returns an ADT containing
 // the kind of the continuation set. These functions must be injective.
 
 func (l lit[t]) MatchExp(bv ExpBoolVars, nv ExpIntVars) ExpKind {
@@ -241,9 +241,9 @@ func (b lt) String() string     { return fmt.Sprintf("(lt %v %v)", b.a, b.b) }
 func (e if_[t]) String() string { return fmt.Sprintf("(if %v %v %v)", e.c, e.t, e.f) }
 
 // We implement the value constructors as functions instead of letting
-// the user create the types directly because type-inference in Go
+// the user create the types directly because of type-inference in Go
 // works better this way. Unfortunately, it still doesn't work for If,
-// which is very dissapointing.
+// which is very disappointing.
 //
 // If Go used Hindley–Milner type-inference, this would not be a
 // problem.
@@ -263,11 +263,11 @@ func If[t ety](c exp[bool], tr, fl exp[t]) if_[t] {
 // to the internal representation of the ADT. Our sum type is an
 // abstract data type.
 
-// We want to write an interpretation for the ADT that evalues it in
+// We want to write an interpretation for the ADT that evaluates it in
 // big-step operational semantics style. This is *our* choice. The
 // producer of the ADT doesn't force eval on us (like it forced
 // fmt.Stringer). The interpretation is not fixed, for example, we
-// could choose to make another interpreter that's a simplifer, or one
+// could choose to make another interpreter that's a simplifier, or one
 // that's a compiler to machine code. All these have a different type,
 // and all are possible.
 //
@@ -278,7 +278,7 @@ func If[t ety](c exp[bool], tr, fl exp[t]) if_[t] {
 // We only implement eval, the rest are left as an exercise to the
 // reader.
 
-// EvalInt is a set of mutally recursive continuations (implemented
+// EvalInt is a set of mutually recursive continuations (implemented
 // as an object satisfying ExpIntVars) that capture the denotation of
 // the expression as an int.
 //
@@ -291,7 +291,7 @@ func If[t ety](c exp[bool], tr, fl exp[t]) if_[t] {
 // to implement a case. It won't compile.
 type EvalInt int
 
-// EvalBool is a set of mutally recursive continuations (implemented
+// EvalBool is a set of mutually recursive continuations (implemented
 // as an object satisfying ExpBoolVars) that capture the denotation of
 // the expression as an bool.
 //
@@ -422,7 +422,7 @@ var progs = []Exp{
 }
 
 func main() {
-	// we can process expressions uniformely, without having to
+	// we can process expressions uniformly, without having to
 	// know their type.
 	for _, p := range progs {
 		fmt.Printf("%v=%v\n", eval(p), p)
