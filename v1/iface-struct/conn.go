@@ -41,6 +41,7 @@ func printAll(conn net.Conn) {
 		log.Fatal(err)
 	}
 	fmt.Printf("response = %v\n", string(response[:50]))
+	fmt.Printf("len(response) = %v\n", len(response))
 }
 
 func regular() {
@@ -48,8 +49,8 @@ func regular() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer func() { _ = conn.Close() }()
 	printAll(conn)
-	err = conn.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,5 +69,6 @@ func withStats() {
 
 func main() {
 	regular()
+	fmt.Println()
 	withStats()
 }
