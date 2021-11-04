@@ -20,6 +20,12 @@ func (foo) Foo() string {
 	return "foo!"
 }
 
+type bar struct{}
+
+func (bar) Foo() string {
+	return "bar!"
+}
+
 func panicky() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -31,5 +37,8 @@ func panicky() {
 
 func main() {
 	panicky()
-	doFoo(Container{Fooer: foo{}})
+	c := Container{Fooer: foo{}}
+	doFoo(c)
+	c.Fooer = bar{}
+	doFoo(c)
 }
