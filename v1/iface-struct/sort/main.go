@@ -9,6 +9,10 @@ type intList struct {
 	array []int
 }
 
+type revSort struct {
+	sort.Interface
+}
+
 func (l intList) Len() int {
 	result := len(l.array)
 	fmt.Printf("Len => %v\n", result)
@@ -19,6 +23,10 @@ func (l intList) Less(i, j int) bool {
 	result := l.array[i] < l.array[j]
 	fmt.Printf("Less %d %d => %v\n", i, j, result)
 	return result
+}
+
+func (s revSort) Less(i, j int) bool {
+	return s.Interface.Less(j, i)
 }
 
 func (l intList) Swap(i, j int) {
@@ -35,5 +43,7 @@ func main() {
 	l := intList{array: []int{4, 5, 2, 8, 1, 9, 3}}
 	fmt.Println(l)
 	sort.Sort(l)
+	fmt.Println(l)
+	sort.Sort(revSort{l})
 	fmt.Println(l)
 }
