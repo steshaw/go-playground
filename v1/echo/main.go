@@ -9,9 +9,8 @@ func main() {
 	fmt.Println(os.Args)
 	fmt.Println(len(os.Args))
 	var s, sep string
-	for i := 1; i < len(os.Args); i++ {
-		fmt.Printf("i = %d\n", i)
-		s += sep + os.Args[i]
+	for _, arg := range os.Args[1:] {
+		s += sep + arg
 		sep = " "
 	}
 	fmt.Println(s)
