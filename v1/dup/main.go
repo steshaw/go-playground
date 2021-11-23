@@ -3,15 +3,19 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
 	counts := make(map[string]int)
-	input := bufio.NewScanner(os.Stdin)
-	for input.Scan() {
-		counts[input.Text()]++
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		counts[scanner.Text()]++
 		// ignoring input.Err()
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal("Error scanning", err)
 	}
 	for line, n := range counts {
 		if n > 1 {
