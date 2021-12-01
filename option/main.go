@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "example.com/option/option"
 	"fmt"
+
+	. "example.com/option/options"
 )
 
 func div(n, m int) Option {

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-grep -l 'func main' ./*/*.go | while read -r file; do
+grep -l 'func main' ./*/*.go | grep -v generics-experiments | while read -r file; do
   dir=${file%/*}
   dir=${dir#./}
   echo "$dir"

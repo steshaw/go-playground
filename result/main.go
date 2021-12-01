@@ -1,8 +1,9 @@
 package main
 
 import (
-	. "example.com/result/result"
 	"fmt"
+
+	. "example.com/result/results"
 )
 
 func div(n, m int) Result {
