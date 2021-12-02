@@ -11,9 +11,11 @@ func benchmarkFav(
 	isFav func(string) bool,
 	s string,
 ) {
+	var r bool
 	for n := 0; n < b.N; n++ {
-		isFav(s)
+		r = isFav(s)
 	}
+	result = r
 }
 
 func BenchmarkFavAInSet(b *testing.B)             { benchmarkFav(b, isFavouriteInSet, "A") }
