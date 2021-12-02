@@ -74,6 +74,33 @@ func isFavouriteSwitch(s string) bool {
 	}
 }
 
+func isFavouriteSwitchFallthrough(s string) bool {
+	switch s {
+	case "A":
+		fallthrough
+	case "B":
+		fallthrough
+	case "C":
+		fallthrough
+	case "D":
+		fallthrough
+	case "E":
+		fallthrough
+	case "M":
+		fallthrough
+	case "N":
+		fallthrough
+	case "X":
+		fallthrough
+	case "Y":
+		fallthrough
+	case "Z":
+		return true
+	default:
+		return false
+	}
+}
+
 func isFavouriteSwitchByte(s string) bool {
 	if len(s) != 1 {
 		return false
@@ -234,6 +261,7 @@ func main() {
 			isFavouriteInSet(s),
 			isFavouriteInSetGlobal(s),
 			isFavouriteSwitch(s),
+			isFavouriteSwitchFallthrough(s),
 			isFavouriteSwitchByte(s),
 			isFavouriteContains(s),
 			isFavouriteContainsGlobal(s),
