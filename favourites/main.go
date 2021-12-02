@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 	"unicode"
 
@@ -174,6 +175,11 @@ func isFavouriteContainsGlobal(s string) bool {
 	return false
 }
 
+func isFavouriteSearchStrings(s string) bool {
+	index := sort.SearchStrings(globalFavsStrings, s)
+	return index < len(globalFavsStrings) && globalFavsStrings[index] == s
+}
+
 var globalFavsByte = []byte{
 	'A',
 	'B',
@@ -265,6 +271,7 @@ func main() {
 			isFavouriteSwitchByte(s),
 			isFavouriteContains(s),
 			isFavouriteContainsGlobal(s),
+			isFavouriteSearchStrings(s),
 			isFavouriteContainsByte(s),
 			isFavouriteStringContains(s),
 			isFavouriteStringContainsRune(s),
