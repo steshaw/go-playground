@@ -199,6 +199,15 @@ func isFavouriteStringContains(s string) bool {
 	return strings.Contains("ABCDEMNXYZ", s)
 }
 
+func isFavouriteStringContainsRune(s string) bool {
+	runes := []rune(s)
+	if len(runes) != 1 {
+		return false
+	}
+	r := runes[0]
+	return strings.ContainsRune("ABCDEMNXYZ", r)
+}
+
 func main() {
 	for i := 0; i < 127; i++ {
 		s := "" + string(rune(i))
@@ -211,6 +220,7 @@ func main() {
 			isFavouriteContainsGlobal(s),
 			isFavouriteContainsByte(s),
 			isFavouriteStringContains(s),
+			isFavouriteStringContainsRune(s),
 			isFavouriteContainsRune(s),
 		}
 		fmt.Printf("isFavourite(%q) = %v\n", s, results)
