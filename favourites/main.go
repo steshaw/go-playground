@@ -195,7 +195,7 @@ func isFavouriteContainsRune(s string) bool {
 	return false
 }
 
-func isFavouriteContainsString(s string) bool {
+func isFavouriteStringContains(s string) bool {
 	return strings.Contains("ABCDEMNXYZ", s)
 }
 
@@ -210,7 +210,7 @@ func main() {
 			isFavouriteContains(s),
 			isFavouriteContainsGlobal(s),
 			isFavouriteContainsByte(s),
-			isFavouriteContainsString(s),
+			isFavouriteStringContains(s),
 			isFavouriteContainsRune(s),
 		}
 		fmt.Printf("isFavourite(%q) = %v\n", s, results)
