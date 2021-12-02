@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
+	"unicode"
 )
 
 func isFavouriteInSet(s string) bool {
@@ -209,7 +211,7 @@ func isFavouriteStringContainsRune(s string) bool {
 }
 
 func main() {
-	for i := 0; i < 127; i++ {
+	for i := 0; i <= unicode.MaxRune; i++ {
 		s := "" + string(rune(i))
 		results := []bool{
 			isFavouriteInSet(s),
@@ -223,10 +225,11 @@ func main() {
 			isFavouriteStringContainsRune(s),
 			isFavouriteContainsRune(s),
 		}
-		fmt.Printf("isFavourite(%q) = %v\n", s, results)
+		msg := fmt.Sprintf("isFavourite(%q) = %v", s, results)
+		fmt.Println(msg)
 		for _, r := range results[1:] {
 			if results[0] != r {
-				panic("functions are not equivalent")
+				log.Fatalf("Functions are not equivalent: %v", msg)
 			}
 		}
 	}
