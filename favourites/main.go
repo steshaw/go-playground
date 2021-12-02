@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func isFavourite1(s string) bool {
+func isFavouriteInSet(s string) bool {
 	favs := map[string]struct{}{
 		"A": {},
 		"B": {},
@@ -37,7 +37,7 @@ var (
 	}
 )
 
-func isFavourite2(s string) bool {
+func isFavouriteInSetGlobal(s string) bool {
 	_, result := globalFavs[s]
 	return result
 }
@@ -212,8 +212,8 @@ func main() {
 	for i := 0; i < 127; i++ {
 		s := "" + string(rune(i))
 		results := []bool{
-			isFavourite1(s),
-			isFavourite2(s),
+			isFavouriteInSet(s),
+			isFavouriteInSetGlobal(s),
 			isFavouriteSwitch(s),
 			isFavouriteSwitchByte(s),
 			isFavouriteContains(s),

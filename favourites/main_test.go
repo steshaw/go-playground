@@ -16,8 +16,8 @@ func benchmarkFav(
 	}
 }
 
-func BenchmarkFavA1(b *testing.B)              { benchmarkFav(b, isFavourite1, "A") }
-func BenchmarkFavA2(b *testing.B)              { benchmarkFav(b, isFavourite2, "A") }
+func BenchmarkFavAInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "A") }
+func BenchmarkFavAInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "A") }
 func BenchmarkFavASwitch(b *testing.B)         { benchmarkFav(b, isFavouriteSwitch, "A") }
 func BenchmarkFavASwitchByte(b *testing.B)     { benchmarkFav(b, isFavouriteSwitchByte, "A") }
 func BenchmarkFavAContains(b *testing.B)       { benchmarkFav(b, isFavouriteContains, "A") }
@@ -28,8 +28,8 @@ func BenchmarkFavAStringContainsRune(b *testing.B) {
 }
 func BenchmarkFavAContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "A") }
 
-func BenchmarkFavE1(b *testing.B)              { benchmarkFav(b, isFavourite1, "E") }
-func BenchmarkFavE2(b *testing.B)              { benchmarkFav(b, isFavourite2, "E") }
+func BenchmarkFavEInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "E") }
+func BenchmarkFavEInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "E") }
 func BenchmarkFavESwitch(b *testing.B)         { benchmarkFav(b, isFavouriteSwitch, "E") }
 func BenchmarkFavESwitchByte(b *testing.B)     { benchmarkFav(b, isFavouriteSwitchByte, "E") }
 func BenchmarkFavEContains(b *testing.B)       { benchmarkFav(b, isFavouriteContains, "E") }
@@ -40,8 +40,8 @@ func BenchmarkFavEStringContainsRune(b *testing.B) {
 }
 func BenchmarkFavEContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "E") }
 
-func BenchmarkFavY1(b *testing.B)              { benchmarkFav(b, isFavourite1, "Y") }
-func BenchmarkFavY2(b *testing.B)              { benchmarkFav(b, isFavourite2, "Y") }
+func BenchmarkFavYInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "Y") }
+func BenchmarkFavYInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "Y") }
 func BenchmarkFavYSwitch(b *testing.B)         { benchmarkFav(b, isFavouriteSwitch, "Y") }
 func BenchmarkFavYSwitchByte(b *testing.B)     { benchmarkFav(b, isFavouriteSwitchByte, "Y") }
 func BenchmarkFavYContains(b *testing.B)       { benchmarkFav(b, isFavouriteContains, "Y") }
@@ -52,8 +52,8 @@ func BenchmarkFavYStringContainsRune(b *testing.B) {
 }
 func BenchmarkFavYContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "Y") }
 
-func BenchmarkFava1(b *testing.B)              { benchmarkFav(b, isFavourite1, "a") }
-func BenchmarkFava2(b *testing.B)              { benchmarkFav(b, isFavourite2, "a") }
+func BenchmarkFavaInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "a") }
+func BenchmarkFavaInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "a") }
 func BenchmarkFavaSwitch(b *testing.B)         { benchmarkFav(b, isFavouriteSwitch, "a") }
 func BenchmarkFavaSwitchByte(b *testing.B)     { benchmarkFav(b, isFavouriteSwitchByte, "a") }
 func BenchmarkFavaContains(b *testing.B)       { benchmarkFav(b, isFavouriteContains, "a") }
