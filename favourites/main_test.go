@@ -26,7 +26,9 @@ func BenchmarkFavAStringContains(b *testing.B) { benchmarkFav(b, isFavouriteStri
 func BenchmarkFavAStringContainsRune(b *testing.B) {
 	benchmarkFav(b, isFavouriteStringContainsRune, "A")
 }
-func BenchmarkFavAContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "A") }
+func BenchmarkFavAContainsRune(b *testing.B)   { benchmarkFav(b, isFavouriteContainsRune, "A") }
+func BenchmarkFavAKoazeeContains(b *testing.B) { benchmarkFav(b, isFavouriteKoazeeContains, "A") }
+func BenchmarkFavAFunkContains(b *testing.B)   { benchmarkFav(b, isFavouriteFunkContains, "A") }
 
 func BenchmarkFavEInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "E") }
 func BenchmarkFavEInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "E") }
@@ -38,7 +40,9 @@ func BenchmarkFavEStringContains(b *testing.B) { benchmarkFav(b, isFavouriteStri
 func BenchmarkFavEStringContainsRune(b *testing.B) {
 	benchmarkFav(b, isFavouriteStringContainsRune, "E")
 }
-func BenchmarkFavEContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "E") }
+func BenchmarkFavEContainsRune(b *testing.B)   { benchmarkFav(b, isFavouriteContainsRune, "E") }
+func BenchmarkFavEKoazeeContains(b *testing.B) { benchmarkFav(b, isFavouriteKoazeeContains, "E") }
+func BenchmarkFavEFunkContains(b *testing.B)   { benchmarkFav(b, isFavouriteFunkContains, "E") }
 
 func BenchmarkFavYInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "Y") }
 func BenchmarkFavYInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "Y") }
@@ -50,7 +54,9 @@ func BenchmarkFavYStringContains(b *testing.B) { benchmarkFav(b, isFavouriteStri
 func BenchmarkFavYStringContainsRune(b *testing.B) {
 	benchmarkFav(b, isFavouriteStringContainsRune, "Y")
 }
-func BenchmarkFavYContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "Y") }
+func BenchmarkFavYContainsRune(b *testing.B)   { benchmarkFav(b, isFavouriteContainsRune, "Y") }
+func BenchmarkFavYKoazeeContains(b *testing.B) { benchmarkFav(b, isFavouriteKoazeeContains, "Y") }
+func BenchmarkFavYFunkContains(b *testing.B)   { benchmarkFav(b, isFavouriteFunkContains, "Y") }
 
 func BenchmarkFavaInSet(b *testing.B)          { benchmarkFav(b, isFavouriteInSet, "a") }
 func BenchmarkFavaInSetGlobal(b *testing.B)    { benchmarkFav(b, isFavouriteInSetGlobal, "a") }
@@ -62,4 +68,6 @@ func BenchmarkFavaStringContains(b *testing.B) { benchmarkFav(b, isFavouriteStri
 func BenchmarkFavaStringContainsRune(b *testing.B) {
 	benchmarkFav(b, isFavouriteStringContainsRune, "a")
 }
-func BenchmarkFavaContainsRune(b *testing.B) { benchmarkFav(b, isFavouriteContainsRune, "a") }
+func BenchmarkFavaContainsRune(b *testing.B)   { benchmarkFav(b, isFavouriteContainsRune, "a") }
+func BenchmarkFavaKoazeeContains(b *testing.B) { benchmarkFav(b, isFavouriteKoazeeContains, "a") }
+func BenchmarkFavaFunkContains(b *testing.B)   { benchmarkFav(b, isFavouriteFunkContains, "a") }

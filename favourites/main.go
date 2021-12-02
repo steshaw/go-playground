@@ -5,6 +5,9 @@ import (
 	"log"
 	"strings"
 	"unicode"
+
+	"github.com/thoas/go-funk"
+	"github.com/wesovilabs/koazee"
 )
 
 func isFavouriteInSet(s string) bool {
@@ -25,7 +28,7 @@ func isFavouriteInSet(s string) bool {
 }
 
 var (
-	globalFavs = map[string]struct{}{
+	globalFavsSet = map[string]struct{}{
 		"A": {},
 		"B": {},
 		"C": {},
@@ -40,7 +43,7 @@ var (
 )
 
 func isFavouriteInSetGlobal(s string) bool {
-	_, result := globalFavs[s]
+	_, result := globalFavsSet[s]
 	return result
 }
 
@@ -122,7 +125,7 @@ func isFavouriteContains(s string) bool {
 	return false
 }
 
-var globalFavsSlice = []string{
+var globalFavsStrings = []string{
 	"A",
 	"B",
 	"C",
@@ -136,7 +139,7 @@ var globalFavsSlice = []string{
 }
 
 func isFavouriteContainsGlobal(s string) bool {
-	for _, fav := range globalFavsSlice {
+	for _, fav := range globalFavsStrings {
 		if s == fav {
 			return true
 		}
@@ -210,6 +213,20 @@ func isFavouriteStringContainsRune(s string) bool {
 	return strings.ContainsRune("ABCDEMNXYZ", r)
 }
 
+var favsStream = koazee.StreamOf(globalFavsStrings)
+
+func isFavouriteKoazeeContains(s string) bool {
+	contained, err := favsStream.Contains(s)
+	if err != nil {
+		log.Fatalf("Argh Koazee.Contains failed...: %v", err)
+	}
+	return contained
+}
+
+func isFavouriteFunkContains(s string) bool {
+	return funk.Contains(globalFavsStrings, s)
+}
+
 func main() {
 	for i := 0; i <= unicode.MaxRune; i++ {
 		s := "" + string(rune(i))
@@ -224,6 +241,8 @@ func main() {
 			isFavouriteStringContains(s),
 			isFavouriteStringContainsRune(s),
 			isFavouriteContainsRune(s),
+			isFavouriteKoazeeContains(s),
+			isFavouriteFunkContains(s),
 		}
 		msg := fmt.Sprintf("isFavourite(%q) = %v", s, results)
 		fmt.Println(msg)
