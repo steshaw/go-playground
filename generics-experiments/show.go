@@ -5,25 +5,25 @@ import (
 )
 
 type Show interface {
-  Show() string
+	Show() string
 }
 
 type String string
 
 func (a String) Show() string {
-  return string(a)
+	return string(a)
 }
 
 type Int int
 
 func (a Int) Show() string {
-  return fmt.Sprint(a)
+	return fmt.Sprint(a)
 }
 
 type Rune rune
 
 func (a Rune) Show() string {
-  return fmt.Sprint(a)
+	return fmt.Sprint(a)
 }
 
 func show[A Show](as ...A) {
