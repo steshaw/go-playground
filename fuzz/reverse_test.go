@@ -7,7 +7,6 @@ import (
 )
 
 func TestReverse(t *testing.T) {
-	r := require.New(t)
 	cases := []struct {
 		in, want string
 	}{
@@ -17,7 +16,10 @@ func TestReverse(t *testing.T) {
 		{"!12345", "54321!"},
 	}
 	for _, tc := range cases {
-		rev := reverse(tc.in)
-		r.Equal(rev, tc.want)
+		t.Run("Hm", func(t *testing.T) {
+			r := require.New(t)
+			rev := reverse(tc.in)
+			r.Equal(rev, tc.want)
+		})
 	}
 }
