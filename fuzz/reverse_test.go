@@ -20,7 +20,8 @@ func TestReverse(t *testing.T) {
 	for _, tc := range cases {
 		t.Run("Hm", func(t *testing.T) {
 			r := require.New(t)
-			rev := reverse(tc.in)
+			rev, err := reverse(tc.in)
+			r.Nil(err)
 			r.Equal(rev, tc.want)
 		})
 	}
@@ -33,15 +34,18 @@ func FuzzReverse(f *testing.F) {
 	}
 	f.Fuzz(func(t *testing.T, orig string) {
 		fmt.Printf("string = %s\n", orig)
-		rev := reverse(orig)
-		doubleRev := reverse(rev)
+		rev, err := reverse(orig)
+		if err == nil {
+			t.Skip()
+		}
+		doubleRev, err := reverse(rev)
+		if err == nil {
+			t.Skip()
+		}
 		t.Run(fmt.Sprintf("orig = '%s'", orig), func(t *testing.T) {
-			if orig != doubleRev {
-				t.Errorf("Before: %q, after: %q", orig, doubleRev)
-			}
-			if utf8.ValidString(orig) && !utf8.ValidString(rev) {
-				t.Errorf("Reverse produced invalid UTF-8 string %q", rev)
-			}
+			r := require.New(t)
+			r.Equal(orig, doubleRev)
+			r.True(utf8.ValidString(orig) && !utf8.ValidString(rev), "Original is valid UTF-8, but rev is not")
 		})
 	})
 }
