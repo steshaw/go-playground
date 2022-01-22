@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 	"unicode/utf8"
 
@@ -31,13 +32,16 @@ func FuzzReverse(f *testing.F) {
 		f.Add(tc) // Seed corpus
 	}
 	f.Fuzz(func(t *testing.T, orig string) {
+		fmt.Printf("string = %s\n", orig)
 		rev := reverse(orig)
 		doubleRev := reverse(rev)
-		if orig != doubleRev {
-			t.Errorf("Before: %q, after: %q", orig, doubleRev)
-		}
-		if utf8.ValidString(orig) && !utf8.ValidString(rev) {
-			t.Errorf("Reverse produced invalid UTF-8 string %q", rev)
-		}
+		t.Run(fmt.Sprintf("orig = '%s'", orig), func(t *testing.T) {
+			if orig != doubleRev {
+				t.Errorf("Before: %q, after: %q", orig, doubleRev)
+			}
+			if utf8.ValidString(orig) && !utf8.ValidString(rev) {
+				t.Errorf("Reverse produced invalid UTF-8 string %q", rev)
+			}
+		})
 	})
 }
