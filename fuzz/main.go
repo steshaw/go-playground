@@ -3,11 +3,13 @@ package main
 import "fmt"
 
 func reverse(s string) string {
-	b := []rune(s)
-	for i, j := 0, len(b)-1; i < len(b)/2; i, j = i+1, j-1 {
-		b[i], b[j] = b[j], b[i]
+	fmt.Printf("input: %q\n", s)
+	rs := []rune(s)
+	fmt.Printf("runes: %q\n", rs)
+	for i, j := 0, len(rs)-1; i < len(rs)/2; i, j = i+1, j-1 {
+		rs[i], rs[j] = rs[j], rs[i]
 	}
-	return string(b)
+	return string(rs)
 }
 
 func main() {
